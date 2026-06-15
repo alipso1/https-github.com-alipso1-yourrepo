@@ -156,10 +156,17 @@ function togglePw() {
 }
 
 function onUnlock() { document.getElementById('mainContent').style.display = ''; }
-// Auto-unlock if already authenticated this session
+// Auto-unlock if already authenticated this session or returning via ?auth=1
 window.addEventListener('DOMContentLoaded', function() {
-  const auth = sessionStorage.getItem('salem_auth');
-  if (auth) { isAdmin = auth === 'admin'; unlockSite(); }
+  const params = new URLSearchParams(window.location.search);
+  const session = sessionStorage.getItem('salem_auth');
+  if (params.get('auth') === '1' && session) {
+    isAdmin = session === 'admin';
+    unlockSite();
+  } else if (session) {
+    isAdmin = session === 'admin';
+    unlockSite();
+  }
 });
 </script>
 </body>
