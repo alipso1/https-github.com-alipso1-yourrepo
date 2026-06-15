@@ -146,8 +146,6 @@ function doLogin() {
 function unlockSite() {
   sessionStorage.setItem('salem_auth', isAdmin ? 'admin' : 'user');
   document.getElementById('loginScreen').style.display = 'none';
-  const adminBtn = document.querySelector('.admin-btn');
-  if (adminBtn) adminBtn.style.display = isAdmin ? '' : 'none';
   if (typeof onUnlock === 'function') onUnlock();
 }
 function togglePw() {
@@ -155,7 +153,16 @@ function togglePw() {
   inp.type = inp.type === 'password' ? 'text' : 'password';
 }
 
-function onUnlock() { document.getElementById('mainContent').style.display = ''; }
+function onUnlock() {
+  document.getElementById('mainContent').style.display = '';
+  if (isAdmin) {
+    document.querySelectorAll('.net-card').forEach(function(a) {
+      const href = a.getAttribute('href');
+      if (href && !href.includes('?')) a.setAttribute('href', href + '?admin=1');
+      else if (href && !href.includes('admin=1')) a.setAttribute('href', href + '&admin=1');
+    });
+  }
+}
 // Auto-unlock if already authenticated this session or returning via ?auth=1
 window.addEventListener('DOMContentLoaded', function() {
   const params = new URLSearchParams(window.location.search);
