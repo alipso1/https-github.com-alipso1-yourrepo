@@ -144,6 +144,7 @@ function doLogin() {
   else { err.classList.add('show'); document.getElementById('loginPassword').value = ''; document.getElementById('loginPassword').focus(); }
 }
 function unlockSite() {
+  sessionStorage.setItem('salem_auth', isAdmin ? 'admin' : 'user');
   document.getElementById('loginScreen').style.display = 'none';
   const adminBtn = document.querySelector('.admin-btn');
   if (adminBtn) adminBtn.style.display = isAdmin ? '' : 'none';
@@ -155,6 +156,11 @@ function togglePw() {
 }
 
 function onUnlock() { document.getElementById('mainContent').style.display = ''; }
+// Auto-unlock if already authenticated this session
+window.addEventListener('DOMContentLoaded', function() {
+  const auth = sessionStorage.getItem('salem_auth');
+  if (auth) { isAdmin = auth === 'admin'; unlockSite(); }
+});
 </script>
 </body>
 </html>
