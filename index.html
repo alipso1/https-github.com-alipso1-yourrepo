@@ -145,6 +145,8 @@ function doLogin() {
 }
 function unlockSite() {
   sessionStorage.setItem('salem_auth', isAdmin ? 'admin' : 'user');
+  if (isAdmin) sessionStorage.setItem('salem_admin', '1');
+  else sessionStorage.removeItem('salem_admin');
   document.getElementById('loginScreen').style.display = 'none';
   if (typeof onUnlock === 'function') onUnlock();
 }

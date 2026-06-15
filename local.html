@@ -123,12 +123,13 @@
 <script>
 window.addEventListener('DOMContentLoaded', function() {
   const params = new URLSearchParams(window.location.search);
-  if (params.get('admin') === '1') {
-    // Update back link to preserve admin status
+  const isAdm = params.get('admin') === '1';
+  if (isAdm) sessionStorage.setItem('salem_admin', '1');
+  const adminOk = isAdm || sessionStorage.getItem('salem_admin') === '1';
+  if (adminOk) {
     document.querySelectorAll('a[href="index.html?auth=1"]').forEach(function(a) {
       a.setAttribute('href', 'index.html?auth=1&admin=1');
     });
-    // Show any admin buttons
     document.querySelectorAll('.admin-btn').forEach(function(b) {
       b.style.display = '';
     });
