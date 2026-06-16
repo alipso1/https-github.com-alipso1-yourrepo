@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Salem Web Network — Salem Rate Card</title>
+<title>Townhall Media — Salem Rate Card</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Syne:wght@700;800&display=swap" rel="stylesheet">
 <style>
   :root{--navy:#0D1B2A;--navy-mid:#152236;--navy-light:#1E3250;--gold:#C8A84B;--gold-light:#E2C470;--gold-dim:#9A7B30;--white:#F5F4F0;--muted:#8A9AB0;--border:rgba(200,168,75,0.18);}
@@ -53,13 +53,35 @@
   <a class="back-btn" href="index.html?auth=1">← Back to All Networks</a>
   <button class="admin-btn" id="editBtn" onclick="openEditModal()">⚙ Edit Rate Card</button>
 </div>
-<div class="page-title">Salem Web Network</div>
+<div class="page-title">Townhall Media</div>
 
-<div class="note-box">Request avails and dates for dedicated email sends.</div>
-<table class="rate-table"><thead><tr><th>List / Segment</th><th>CPM Rate (NET)</th><th>Subscribers</th></tr></thead><tbody>
-<tr><td>Christian – General</td><td data-rk="gen_cpm">$15 CPM</td><td data-rk="gen_subs">Approx. 1.85M</td></tr>
-<tr><td>Christian – Targeted</td><td data-rk="targeted_cpm">$25–$50+ CPM</td><td>Request Avails</td></tr>
-<tr><td>Christian – Pastors</td><td data-rk="pastors_cpm">$45 CPM</td><td data-rk="pastors_subs">Approx. 140K</td></tr>
+<div class="note-box">$1,500 minimum for email blasts. Contact Lauren.Best@townhallmedia.com for avails.</div>
+<table class="rate-table"><thead><tr><th>Product</th><th>Pricing</th><th>Notes</th></tr></thead><tbody>
+<tr class="section-header"><td colspan="3">Email</td></tr>
+<tr><td>Newsletter</td><td data-rk="newsletter">$2,000/day</td><td>1.3M sends/day</td></tr>
+<tr><td>Dedicated Email – National</td><td data-rk="ded_national">$10 CPM</td><td>560K</td></tr>
+<tr><td>Dedicated Email – Geo</td><td data-rk="ded_geo">$15–$20 CPM</td><td>By State/DMA</td></tr>
+<tr class="section-header"><td colspan="3">Display</td></tr>
+<tr><td>Native Ad</td><td data-rk="native">$7 CPM</td><td>Editorial-style</td></tr>
+<tr><td>Panoramic</td><td data-rk="panoramic">$12 CPM</td><td>1920x300</td></tr>
+<tr><td>Interstitial</td><td data-rk="interstitial">$25 CPM</td><td>320x480, 300x250</td></tr>
+<tr><td>Standard Display</td><td data-rk="standard_display">$10 CPM</td><td>728x90, 300x250, 970x250</td></tr>
+<tr class="section-header"><td colspan="3">High Impact</td></tr>
+<tr><td>All Sites Sponsorship</td><td data-rk="all_sites">$20,000</td><td>Contact J. Garthwaite</td></tr>
+<tr><td>Townhall Homepage</td><td data-rk="homepage">$5,000</td><td>Contact J. Garthwaite</td></tr>
+<tr class="section-header"><td colspan="3">Video Podcasts</td></tr>
+<tr><td>Cam & Co (Mon–Thu)</td><td data-rk="cam_co">$2,000 / 8 shows</td><td>30–60s live read</td></tr>
+<tr><td>Triggered (Wed)</td><td data-rk="triggered">$2,000 / 8 shows</td><td>Host pre-approval required</td></tr>
+<tr><td>Larry Show – Live Read 1</td><td data-rk="larry_lr1">$2,500</td><td>Mon–Thu</td></tr>
+<tr><td>Larry Show – Live Read 2/3/4</td><td data-rk="larry_lr234">$1,800</td><td>Mon–Thu</td></tr>
+<tr><td>Larry Show – Video Interview</td><td data-rk="larry_interview">$5,000</td><td>Mon–Thu</td></tr>
+<tr><td>Larry Show – Segment Close</td><td data-rk="larry_segment">$6,000/day</td><td>Mon–Thu</td></tr>
+<tr class="section-header"><td colspan="3">Sponsored Content</td></tr>
+<tr><td>Pre-roll Video</td><td data-rk="preroll">$25 CPM</td><td>—</td></tr>
+<tr><td>Sponsored Content Article</td><td data-rk="sponsored_content">$3,000</td><td>Advertorial by client</td></tr>
+<tr><td>Host Advertising Interview Repost</td><td data-rk="host_repost">$1,500</td><td>—</td></tr>
+<tr><td>Kevin McCullough Articles</td><td data-rk="mccullough">$6,000</td><td>—</td></tr>
+<tr><td>Josh Hammer Articles</td><td data-rk="hammer_articles">$1,000</td><td>—</td></tr>
 </tbody></table>
 
 <div class="modal-overlay" id="editModal">
@@ -78,9 +100,9 @@
 <div class="save-toast" id="saveToast">✓ Rate card updated!</div>
 
 <script>
-var RATE_KEY="salem_swn_v3";
-var RATE_DEFAULTS={"gen_cpm":"$15","gen_subs":"Approx. 1.85M","targeted_cpm":"$25–$50+","pastors_cpm":"$45","pastors_subs":"Approx. 140K"};
-var RATE_LABELS={"gen_cpm":"Christian General CPM NET","gen_subs":"Christian General Subscribers","targeted_cpm":"Christian Targeted CPM NET","pastors_cpm":"Christian Pastors CPM NET","pastors_subs":"Christian Pastors Subscribers"};
+var RATE_KEY="salem_townhall_v3";
+var RATE_DEFAULTS={"newsletter":"$2,000","ded_national":"$10","ded_geo":"$15-$20","native":"$7","panoramic":"$12","interstitial":"$25","standard_display":"$10","all_sites":"$20,000","homepage":"$5,000","cam_co":"$2,000","triggered":"$2,000","larry_lr1":"$2,500","larry_lr234":"$1,800","larry_interview":"$5,000","larry_segment":"$6,000","preroll":"$25","sponsored_content":"$3,000","host_repost":"$1,500","mccullough":"$6,000","hammer_articles":"$1,000"};
+var RATE_LABELS={"newsletter":"Newsletter per day","ded_national":"Dedicated Email National CPM","ded_geo":"Dedicated Email Geo CPM","native":"Native Ad CPM","panoramic":"Panoramic National CPM","interstitial":"Interstitial CPM","standard_display":"Standard Display CPM","all_sites":"All Sites Sponsorship","homepage":"Townhall Homepage","cam_co":"Cam and Co 8 shows","triggered":"Triggered 8 shows","larry_lr1":"Larry Live Read 1","larry_lr234":"Larry Live Read 2 3 4","larry_interview":"Larry Video Interview","larry_segment":"Larry Segment Close","preroll":"Pre-roll Video CPM","sponsored_content":"Sponsored Content Article","host_repost":"Host Advertising Interview Repost","mccullough":"Kevin McCullough Articles","hammer_articles":"Josh Hammer Articles"};
 </script>
 
 <script>

@@ -145,8 +145,13 @@ function doLogin() {
 }
 function unlockSite() {
   sessionStorage.setItem('salem_auth', isAdmin ? 'admin' : 'user');
-  if (isAdmin) localStorage.setItem('salem_is_admin', '1');
-  else localStorage.removeItem('salem_is_admin');
+  if (isAdmin) {
+    localStorage.setItem('salem_is_admin', '1');
+    sessionStorage.setItem('salem_is_admin', '1');
+  } else {
+    localStorage.removeItem('salem_is_admin');
+    sessionStorage.removeItem('salem_is_admin');
+  }
   document.getElementById('loginScreen').style.display = 'none';
   if (typeof onUnlock === 'function') onUnlock();
 }

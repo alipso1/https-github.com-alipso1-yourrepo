@@ -15,7 +15,7 @@
   .controls{padding:14px 40px;display:flex;gap:10px;align-items:center;border-bottom:1px solid var(--border);background:var(--navy-mid);position:sticky;top:72px;z-index:90;}
   .back-btn{display:inline-flex;align-items:center;gap:6px;color:var(--gold);text-decoration:none;font-size:13px;font-weight:600;}
   .back-btn:hover{color:var(--gold-light);}
-  .admin-btn{margin-left:auto;background:linear-gradient(135deg,var(--gold),var(--gold-dim));border:none;color:#0D1B2A;padding:8px 16px;border-radius:8px;font-size:12px;font-weight:700;cursor:pointer;display:none;}
+  .admin-btn{margin-left:auto;background:linear-gradient(135deg,var(--gold),var(--gold-dim));border:none;color:#0D1B2A;padding:8px 16px;border-radius:8px;font-size:12px;font-weight:700;cursor:pointer;display:none;}.admin-btn.visible{display:inline-block!important;}
   .admin-btn:hover{opacity:0.85;}
   .page-title{font-family:'Syne',sans-serif;font-size:26px;font-weight:800;color:var(--white);padding:20px 40px 16px;}
   .rate-table{width:calc(100% - 80px);margin:0 40px 40px;border-collapse:collapse;}
@@ -91,11 +91,24 @@ var RATE_LABELS={"ccm_full":"CCM Email Full","ccm_partial":"CCM Email Partial","
 <script>
 // Auto-show edit button if admin session active
 document.addEventListener('DOMContentLoaded', function() {
-  if (localStorage.getItem('salem_is_admin') === '1') {
-    var btn = document.getElementById('editBtn');
-    if (btn) btn.style.display = '';
+  // Check multiple storage locations
+  var isAdm = false;
+  try { isAdm = localStorage.getItem('salem_is_admin') === '1'; } catch(e) {}
+  try { if (!isAdm) isAdm = sessionStorage.getItem('salem_is_admin') === '1'; } catch(e) {}
+  
+  if (isAdm) {
+    showAdminBtn();
   }
 });
+
+function showAdminBtn() {
+  var btn = document.getElementById('editBtn');
+  if (btn) {
+    btn.style.setProperty('display', 'inline-block', 'important');
+  }
+  try { localStorage.setItem('salem_is_admin', '1'); } catch(e) {}
+  try { sessionStorage.setItem('salem_is_admin', '1'); } catch(e) {}
+}
 function openEditModal() {
   var rates = loadRates();
   var grid = document.getElementById('editFormGrid');
