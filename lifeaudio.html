@@ -60,14 +60,14 @@
 </head>
 <body>
 <script>
-// Admin unlock - click logo 3 times quickly to get password prompt
+// Admin unlock - click SALEM MEDIA text 3 times quickly
 var _logoClicks = 0;
 var _logoTimer = null;
 window.addEventListener('DOMContentLoaded', function() {
-  var logo = document.querySelector('.header-logo-img');
-  if (logo) {
-    logo.style.cursor = 'pointer';
-    logo.addEventListener('click', function() {
+  var trigger = document.getElementById('adminTrigger');
+  if (trigger) {
+    trigger.addEventListener('click', function(e) {
+      e.preventDefault();
       _logoClicks++;
       clearTimeout(_logoTimer);
       if (_logoClicks >= 3) {
@@ -86,7 +86,7 @@ window.addEventListener('DOMContentLoaded', function() {
 });
 </script><header>
   <a href="index.html?auth=1" style="text-decoration:none;display:flex;align-items:center;gap:10px;">
-    <div style="font-family:'Syne',sans-serif;font-weight:800;font-size:22px;color:#fff;letter-spacing:1px;">SALEM <span style="color:#C8A84B;">MEDIA</span></div>
+    <div id="adminTrigger" style="font-family:'Syne',sans-serif;font-weight:800;font-size:22px;color:#fff;letter-spacing:1px;cursor:pointer;">SALEM <span style="color:#C8A84B;">MEDIA</span></div>
   </a>
   <div class="header-subtitle-right">Interactive Rate Card</div>
 </header>
