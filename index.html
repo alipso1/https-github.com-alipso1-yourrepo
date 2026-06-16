@@ -163,11 +163,14 @@ function togglePw() {
 function onUnlock() {
   document.getElementById('mainContent').style.display = '';
   if (isAdmin) {
-    document.querySelectorAll('.net-card').forEach(function(a) {
-      const href = a.getAttribute('href');
-      if (href && !href.includes('?')) a.setAttribute('href', href + '?admin=1');
-      else if (href && !href.includes('admin=1')) a.setAttribute('href', href + '&admin=1');
-    });
+    // Small delay to ensure mainContent links are in DOM
+    setTimeout(function() {
+      document.querySelectorAll('.net-card').forEach(function(a) {
+        const href = a.getAttribute('href');
+        if (href && !href.includes('?')) a.setAttribute('href', href + '?admin=1');
+        else if (href && !href.includes('admin=1')) a.setAttribute('href', href + '&admin=1');
+      });
+    }, 50);
   }
 }
 // Auto-unlock if already authenticated this session or returning via ?auth=1
