@@ -111,11 +111,16 @@ var RATE_LABELS={"stigall_60":"Chris Stigall :60 NET","stigall_30":"Chris Stigal
 // Show edit button if ?admin=1 in URL
 (function() {
   var params = new URLSearchParams(window.location.search);
-  if (params.get('admin') === '1') {
+  var isAdm = params.get('admin') === '1';
+  if (isAdm) {
     document.body.classList.add('is-admin');
     var backBtn = document.querySelector('.back-btn');
     if (backBtn) backBtn.href = 'index.html?auth=1&admin=1';
   }
+  // Debug: log to console
+  console.log('admin param:', params.get('admin'), 'isAdm:', isAdm);
+  console.log('body classes:', document.body.className);
+  console.log('editBtn:', document.getElementById('editBtn'));
 })();
   try { localStorage.setItem('salem_is_admin', '1'); } catch(e) {}
   try { sessionStorage.setItem('salem_is_admin', '1'); } catch(e) {}
@@ -160,5 +165,20 @@ function applyRates(rates) {
 applyRates(loadRates());
 </script>
 
+<script>
+// Fallback admin check
+(function() {
+  if (window.location.search.indexOf('admin=1') !== -1) {
+    var btn = document.getElementById('editBtn');
+    if (btn) {
+      btn.removeAttribute('style');
+      btn.style.display = 'inline-block';
+      btn.style.visibility = 'visible';
+      btn.style.opacity = '1';
+    }
+    document.body.className += ' is-admin';
+  }
+})();
+</script>
 </body>
 </html>

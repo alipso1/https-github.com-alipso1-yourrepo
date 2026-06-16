@@ -134,5 +134,20 @@ function applyRates(rates) {
 applyRates(loadRates());
 </script>
 
+<script>
+// Fallback admin check
+(function() {
+  if (window.location.search.indexOf('admin=1') !== -1) {
+    var btn = document.getElementById('editBtn');
+    if (btn) {
+      btn.removeAttribute('style');
+      btn.style.display = 'inline-block';
+      btn.style.visibility = 'visible';
+      btn.style.opacity = '1';
+    }
+    document.body.className += ' is-admin';
+  }
+})();
+</script>
 </body>
 </html>
