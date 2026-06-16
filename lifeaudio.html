@@ -57,15 +57,29 @@
 
   .la-logo { width: 48px; height: 48px; border-radius: 8px; object-fit: cover; vertical-align: middle; }
 
-  .lock-btn { position: fixed; bottom: 24px; right: 24px; width: 44px; height: 44px; background: var(--navy-light); border: 1px solid var(--border); border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 18px; z-index: 500; transition: background 0.2s; }
+
   .lock-btn:hover { background: var(--tag-bg); border-color: var(--gold); }
-  .lock-popup { display: none; position: fixed; bottom: 80px; right: 24px; background: var(--navy-mid); border: 1px solid var(--border); border-radius: 12px; padding: 16px; z-index: 500; width: 240px; box-shadow: 0 8px 32px rgba(0,0,0,0.5); }
-  .lock-popup.open { display: block; }
-  .lock-popup input { width: 100%; background: var(--navy-light); border: 1px solid var(--border); color: var(--white); padding: 8px 10px; border-radius: 8px; font-size: 13px; outline: none; margin-bottom: 8px; font-family: 'Inter', sans-serif; }
-  .lock-popup input:focus { border-color: var(--gold); }
-  .lock-popup button { width: 100%; background: linear-gradient(135deg, var(--gold), var(--gold-dim)); border: none; color: var(--navy); padding: 8px; border-radius: 8px; font-size: 13px; font-weight: 700; cursor: pointer; font-family: 'Inter', sans-serif; }
-  .lock-err { font-size: 11px; color: #e05a52; margin-bottom: 6px; display: none; }
-  .lock-err.show { display: block; }
+
+
+
+
+
+
+
+
+  .admin-btn { background: linear-gradient(135deg, #C8A84B, #9A7B30); border: none; color: #0D1B2A; padding: 8px 16px; border-radius: 8px; font-size: 12px; font-weight: 700; cursor: pointer; display: none; }
+  .admin-btn:hover { opacity: 0.85; }
+  .admin-modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.7); z-index: 500; align-items: center; justify-content: center; }
+  .admin-modal.open { display: flex; }
+  .admin-modal-box { background: #152236; border: 1px solid rgba(200,168,75,0.18); border-radius: 14px; padding: 28px; width: 320px; }
+  .admin-modal-box h3 { font-family: 'Syne',sans-serif; font-size: 16px; font-weight: 700; color: #F5F4F0; margin-bottom: 14px; }
+  .admin-modal-box input { width: 100%; background: #1E3250; border: 1px solid rgba(200,168,75,0.18); color: #F5F4F0; padding: 9px 12px; border-radius: 8px; font-size: 13px; outline: none; margin-bottom: 10px; font-family: 'Inter',sans-serif; }
+  .admin-modal-box input:focus { border-color: #C8A84B; }
+  .admin-modal-box button { width: 100%; background: linear-gradient(135deg,#C8A84B,#9A7B30); border: none; color: #0D1B2A; padding: 10px; border-radius: 8px; font-size: 13px; font-weight: 700; cursor: pointer; }
+  .admin-err { font-size: 12px; color: #e05a52; margin-bottom: 8px; display: none; }
+  .admin-err.show { display: block; }
+  .header-subtitle-right { cursor: pointer; }
+
 </style>
 </head>
 <body>
@@ -105,9 +119,9 @@
 </div>
 <div class="save-toast" id="saveToast">✓ Rate card updated!</div>
 
-<div class="page-title">Life Audio</div>
+<div style="display:flex;align-items:center;justify-content:space-between;padding:0 40px;"><div style="display:flex;align-items:center;gap:16px;">Life Audio</div>
   
-<div class="note-box">All Life Audio podcasts are DAI (Dynamic Ad Insertion). Standard CPM: $29 NET / $34.12 Gross. Additional opportunities: Podcast Interview $1,176.50 | Social Media $470.59 | Dedicated Email $35.29 CPM | Podcast Sponsorship mid-roll 3x/week $1,176.50 | Social Audience Package $5,882.35</div>
+<div class="note-box">All Life Audio podcasts are DAI (Dynamic Ad Insertion). Standard CPM: $29 NET / $34.12 Gross. Additional opportunities: Podcast Interview $1,176.50 | Social Media $470.59 | Dedicated Email $35.29 CPM | Podcast Sponsorship mid-roll 3x/week $1,176.50 | Social Audience Package $5,882.35</div><button class="admin-btn" id="editBtn" onclick="openEditModal()" style="display:none;">⚙ Edit Rate Card</button></div>
 <table class="rate-table">
   <thead><tr><th></th><th>Podcast</th><th>Weekly Rate</th><th>Weekly NET</th><th>Weekly DLs</th><th>CPM NET</th><th>Type</th><th>Frequency</th><th>Gender</th><th>Age Demo</th></tr></thead>
   <tbody><tr><td><img class="la-logo" src="https://i.swncdn.com/lifeaudio/400w/podcast/show/28/image/638058492446103309-rss.webp" alt="Your Daily Prayer" onerror="this.style.display='none'"></td><td>Your Daily Prayer</td><td>$5,302.55</td><td>$4,507.05</td><td>132,100</td><td>$29</td><td>Audio</td><td>7/week</td><td>71% female</td><td>72% 28–59</td></tr><tr><td></td><td>Abide – Bible Sleep Meditation</td><td>$3,139.00</td><td>$2,668.07</td><td>78,200</td><td>$29</td><td>Audio</td><td>2/week</td><td>71% female</td><td>61% 28–59</td></tr><tr><td></td><td>Abide – Daily Meditation</td><td>$1,224.28</td><td>$1,040.61</td><td>30,500</td><td>$29</td><td>Audio</td><td>7/week</td><td>74% female</td><td>68% 29–59</td></tr><tr><td><img class="la-logo" src="https://i.swncdn.com/lifeaudio/400w/podcast/show/15/image/638271720673476650-rss.webp" alt="Your Daily Bible Verse" onerror="this.style.display='none'"></td><td>Your Daily Bible Verse</td><td>$6,017.05</td><td>$5,114.36</td><td>149,900</td><td>$29</td><td>Audio</td><td>7/week</td><td>65% female</td><td>67% 28–59</td></tr><tr><td><img class="la-logo" src="https://i.swncdn.com/lifeaudio/400w/podcast/show/150/image/638219088750615077-rss.webp" alt="The Bible Study Podcast" onerror="this.style.display='none'"></td><td>The Bible Study Podcast</td><td>$1,324.63</td><td>$1,125.91</td><td>33,000</td><td>$29</td><td>Audio</td><td>1/week</td><td>60% female</td><td>61% 25–54</td></tr><tr><td><img class="la-logo" src="https://i.swncdn.com/lifeaudio/400w/podcast/show/175/image/638639025660496366-rss.webp" alt="Jesus Calling" onerror="this.style.display='none'"></td><td>Jesus Calling</td><td>$987.45</td><td>$839.32</td><td>24,600</td><td>$29</td><td>Audio</td><td>1/week</td><td>60% female</td><td>61% 25–55</td></tr><tr><td><img class="la-logo" src="https://i.swncdn.com/lifeaudio/400w/podcast/show/143/image/638199036060942876-rss.webp" alt="Chapter A Day Audio Bible" onerror="this.style.display='none'"></td><td>Chapter A Day Audio Bible</td><td>$1,184.14</td><td>$1,006.50</td><td>29,500</td><td>$29</td><td>Audio</td><td>7/week</td><td>50% male</td><td>69% 28–59</td></tr><tr><td><img class="la-logo" src="https://i.swncdn.com/lifeaudio/400w/podcast/show/19/image/638611524564020230-rss.webp" alt="Crosswalk Devotional" onerror="this.style.display='none'"></td><td>Crosswalk Devotional</td><td>$911.19</td><td>$774.49</td><td>22,700</td><td>$29</td><td>Audio</td><td>5/week</td><td>74% female</td><td>74% 28–59</td></tr><tr><td></td><td>Abide – Bedtime Stories For Kids</td><td>$822.88</td><td>$699.43</td><td>20,500</td><td>$29</td><td>Audio</td><td>1/month</td><td>72% female</td><td>80% 28–44</td></tr><tr><td><img class="la-logo" src="https://i.swncdn.com/lifeaudio/400w/podcast/show/201/image/638906987029682796-rss.webp" alt="The Sean McDowell Show" onerror="this.style.display='none'"></td><td>The Sean McDowell Show</td><td>$481.68</td><td>$409.42</td><td>12,000</td><td>$29</td><td>Audio</td><td>—</td><td>—</td><td>—</td></tr><tr><td><img class="la-logo" src="https://i.swncdn.com/lifeaudio/400w/podcast/show/168/image/639010413592662361-rss.webp" alt="The Built Different Podcast" onerror="this.style.display='none'"></td><td>The Built Different Podcast</td><td>$180.63</td><td>$153.53</td><td>4,500</td><td>$29</td><td>Audio</td><td>1/month</td><td>72% female</td><td>80% 28–45</td></tr><tr><td><img class="la-logo" src="https://i.swncdn.com/lifeaudio/400w/podcast/show/185/image/638701970401798974-rss.webp" alt="Your Nightly Prayer" onerror="this.style.display='none'"></td><td>Your Nightly Prayer</td><td>$610.13</td><td>$518.60</td><td>15,200</td><td>$29</td><td>Audio</td><td>1/week</td><td>—</td><td>—</td></tr><tr><td><img class="la-logo" src="https://i.swncdn.com/lifeaudio/400w/podcast/show/93/image/638096400347281216-rss.webp" alt="The Becket Cook Show" onerror="this.style.display='none'"></td><td>The Becket Cook Show</td><td>$369.29</td><td>$313.89</td><td>9,200</td><td>$29</td><td>Audio</td><td>1/week</td><td>71% female</td><td>56% 35–59</td></tr><tr><td><img class="la-logo" src="https://i.swncdn.com/lifeaudio/400w/podcast/show/17/image/638060148160300648-rss.webp" alt="How to Study the Bible" onerror="this.style.display='none'"></td><td>How to Study the Bible</td><td>$441.54</td><td>$375.30</td><td>11,000</td><td>$29</td><td>Audio</td><td>1/week</td><td>69% female</td><td>71% 35–69</td></tr><tr><td><img class="la-logo" src="https://i.swncdn.com/lifeaudio/400w/podcast/show/14/image/639101115383123482-rss.webp" alt="Bought & Beloved" onerror="this.style.display='none'"></td><td>Bought & Beloved</td><td>$180.63</td><td>$153.53</td><td>4,500</td><td>$29</td><td>Audio/Video</td><td>1/week</td><td>69% female</td><td>80% 28–45</td></tr><tr><td></td><td>Everyday Prayer – Million Praying Moms</td><td>$248.87</td><td>$211.53</td><td>6,200</td><td>$29</td><td>Audio</td><td>1/week</td><td>84% female</td><td>75% 35–59</td></tr><tr><td><img class="la-logo" src="https://i.swncdn.com/lifeaudio/400w/podcast/show/14/image/639101115383123482-rss.webp" alt="Compared to Who?" onerror="this.style.display='none'"></td><td>Compared to Who?</td><td>$116.41</td><td>$98.94</td><td>2,900</td><td>$29</td><td>Audio</td><td>2/week</td><td>94% female</td><td>57% 35–59</td></tr><tr><td><img class="la-logo" src="https://i.swncdn.com/lifeaudio/400w/podcast/show/14/image/639101115383123482-rss.webp" alt="Faith Over Fear" onerror="this.style.display='none'"></td><td>Faith Over Fear</td><td>$317.11</td><td>$269.54</td><td>7,900</td><td>$29</td><td>Audio</td><td>1/week</td><td>81% female</td><td>73% 28–59</td></tr><tr><td><img class="la-logo" src="https://i.swncdn.com/lifeaudio/400w/podcast/show/14/image/639101115383123482-rss.webp" alt="Breathe: The Stress Less Podcast" onerror="this.style.display='none'"></td><td>Breathe: The Stress Less Podcast</td><td>$122.43</td><td>$104.06</td><td>3,050</td><td>$29</td><td>Audio</td><td>1/week</td><td>85% female</td><td>76% 28–59</td></tr><tr><td><img class="la-logo" src="https://i.swncdn.com/lifeaudio/400w/podcast/show/112/image/638614577236517369-rss.webp" alt="The Walk" onerror="this.style.display='none'"></td><td>The Walk</td><td>$116.41</td><td>$98.94</td><td>2,900</td><td>$29</td><td>Audio</td><td>1/week</td><td>—</td><td>—</td></tr><tr><td><img class="la-logo" src="https://i.swncdn.com/lifeaudio/400w/podcast/show/126/image/638610012636732357-rss.webp" alt="Untangling Prayer" onerror="this.style.display='none'"></td><td>Untangling Prayer</td><td>$124.44</td><td>$105.77</td><td>3,100</td><td>$29</td><td>Audio</td><td>1/week</td><td>95% female</td><td>68% 35–65</td></tr><tr><td><img class="la-logo" src="https://i.swncdn.com/lifeaudio/400w/podcast/show/28/image/638058492446103309-rss.webp" alt="Teach Us to Pray" onerror="this.style.display='none'"></td><td>Teach Us to Pray</td><td>$136.48</td><td>$116.00</td><td>3,400</td><td>$29</td><td>Audio</td><td>1/week</td><td>80% female</td><td>76% 35–65</td></tr><tr><td><img class="la-logo" src="https://i.swncdn.com/lifeaudio/400w/podcast/show/112/image/638614577236517369-rss.webp" alt="So Much More" onerror="this.style.display='none'"></td><td>So Much More</td><td>$285.00</td><td>$242.24</td><td>7,100</td><td>$29</td><td>Audio</td><td>2/week</td><td>89% female</td><td>76% 35–65</td></tr><tr><td><img class="la-logo" src="https://i.swncdn.com/lifeaudio/400w/podcast/show/127/image/638621658719315208-rss.webp" alt="Rebuilding Us" onerror="this.style.display='none'"></td><td>Rebuilding Us</td><td>$228.80</td><td>$194.48</td><td>5,700</td><td>$29</td><td>Audio</td><td>—</td><td>68% female</td><td>75% 28–59</td></tr><tr><td><img class="la-logo" src="https://i.swncdn.com/lifeaudio/400w/podcast/show/28/image/638058492446103309-rss.webp" alt="Praying Christian Women" onerror="this.style.display='none'"></td><td>Praying Christian Women</td><td>$268.94</td><td>$228.59</td><td>6,700</td><td>$29</td><td>Audio</td><td>1/week</td><td>—</td><td>—</td></tr><tr><td><img class="la-logo" src="https://i.swncdn.com/lifeaudio/400w/podcast/show/14/image/639101115383123482-rss.webp" alt="Brad Stine Has Issues" onerror="this.style.display='none'"></td><td>Brad Stine Has Issues</td><td>$28.10</td><td>$23.88</td><td>700</td><td>$29</td><td>Audio</td><td>—</td><td>—</td><td>—</td></tr><tr><td><img class="la-logo" src="https://i.swncdn.com/lifeaudio/400w/podcast/show/200/image/638882545631487067-rss.webp" alt="The Greg Laurie Show" onerror="this.style.display='none'"></td><td>The Greg Laurie Show</td><td>$168.59</td><td>$143.30</td><td>4,200</td><td>$29</td><td>Audio</td><td>—</td><td>—</td><td>—</td></tr><tr><td></td><td>Abide – Prayer Meditation</td><td>$120.42</td><td>$102.36</td><td>3,000</td><td>$29</td><td>Audio</td><td>1/week</td><td>69% female</td><td>70% 28–59</td></tr><tr><td><img class="la-logo" src="https://i.swncdn.com/lifeaudio/400w/podcast/show/112/image/638614577236517369-rss.webp" alt="Team Us" onerror="this.style.display='none'"></td><td>Team Us</td><td>$136.48</td><td>$116.00</td><td>3,400</td><td>$29</td><td>Audio</td><td>1/week</td><td>90% female</td><td>98% 28–59</td></tr><tr><td></td><td>Thinking Christian</td><td>$108.38</td><td>$92.12</td><td>2,700</td><td>$29</td><td>Audio</td><td>1/week</td><td>—</td><td>—</td></tr><tr><td><img class="la-logo" src="https://i.swncdn.com/lifeaudio/400w/podcast/show/14/image/639101115383123482-rss.webp" alt="Confessions of a Christian Alcoholic" onerror="this.style.display='none'"></td><td>Confessions of a Christian Alcoholic</td><td>$160.56</td><td>$136.47</td><td>4,000</td><td>$29</td><td>Audio/Video</td><td>1/week</td><td>—</td><td>—</td></tr><tr><td><img class="la-logo" src="https://i.swncdn.com/lifeaudio/400w/podcast/show/14/image/639101115383123482-rss.webp" alt="But Jesus Drank Wine" onerror="this.style.display='none'"></td><td>But Jesus Drank Wine</td><td>$248.87</td><td>$211.53</td><td>6,200</td><td>$29</td><td>Audio</td><td>1/week</td><td>—</td><td>—</td></tr><tr><td><img class="la-logo" src="https://i.swncdn.com/lifeaudio/400w/podcast/show/95/image/638639172488696180-rss.webp" alt="March or Die" onerror="this.style.display='none'"></td><td>March or Die</td><td>$80.28</td><td>$68.24</td><td>2,000</td><td>$29</td><td>Audio</td><td>1/week</td><td>76% male</td><td>60% 28–59</td></tr><tr><td></td><td>The Happy Home w/ Arlene Pellicane</td><td>$160.56</td><td>$136.47</td><td>4,000</td><td>$29</td><td>Audio</td><td>1/week (Mon)</td><td>83% female</td><td>66% 28–44</td></tr><tr><td><img class="la-logo" src="https://i.swncdn.com/lifeaudio/400w/podcast/show/14/image/639101115383123482-rss.webp" alt="The Real Deal of Parenting" onerror="this.style.display='none'"></td><td>The Real Deal of Parenting</td><td>$72.25</td><td>$61.41</td><td>1,800</td><td>$29</td><td>Audio/Video</td><td>—</td><td>87% female</td><td>86% 23–59</td></tr><tr><td><img class="la-logo" src="https://i.swncdn.com/lifeaudio/400w/podcast/show/112/image/638614577236517369-rss.webp" alt="The Love Offering" onerror="this.style.display='none'"></td><td>The Love Offering</td><td>$124.44</td><td>$105.77</td><td>3,100</td><td>$29</td><td>Audio</td><td>1/week</td><td>83% female</td><td>72% 28–59</td></tr><tr><td><img class="la-logo" src="https://i.swncdn.com/lifeaudio/400w/podcast/show/96/image/638102520189994730-rss.webp" alt="Inside the Epicenter" onerror="this.style.display='none'"></td><td>Inside the Epicenter</td><td>$220.77</td><td>$187.65</td><td>5,500</td><td>$29</td><td>Audio</td><td>1/week</td><td>51% male</td><td>69% 35–65</td></tr><tr><td><img class="la-logo" src="https://i.swncdn.com/lifeaudio/400w/podcast/show/19/image/638611524564020230-rss.webp" alt="Crosswalk Talk" onerror="this.style.display='none'"></td><td>Crosswalk Talk</td><td>$80.28</td><td>$68.24</td><td>2,000</td><td>$29</td><td>Audio</td><td>1/week</td><td>94% female</td><td>57% 35–60</td></tr><tr><td><img class="la-logo" src="https://i.swncdn.com/lifeaudio/400w/podcast/show/112/image/638614577236517369-rss.webp" alt="Dwell on These Things" onerror="this.style.display='none'"></td><td>Dwell on These Things</td><td>$60.21</td><td>$51.18</td><td>1,500</td><td>$29</td><td>Audio</td><td>1/week</td><td>—</td><td>—</td></tr><tr><td><img class="la-logo" src="https://i.swncdn.com/lifeaudio/400w/podcast/show/28/image/638058492446103309-rss.webp" alt="Daily Devotions with Pastor John" onerror="this.style.display='none'"></td><td>Daily Devotions with Pastor John</td><td>$100.35</td><td>$85.30</td><td>2,500</td><td>$29</td><td>Audio</td><td>7/week</td><td>59% female</td><td>76% 35–65</td></tr><tr><td><img class="la-logo" src="https://i.swncdn.com/lifeaudio/400w/podcast/show/14/image/639101115383123482-rss.webp" alt="Story Behind" onerror="this.style.display='none'"></td><td>Story Behind</td><td>$80.28</td><td>$68.24</td><td>2,000</td><td>$29</td><td>Audio</td><td>1/week</td><td>95% female</td><td>90% 45–59</td></tr><tr><td><img class="la-logo" src="https://i.swncdn.com/lifeaudio/400w/podcast/show/116/image/638321076947965605-rss.webp" alt="Talk About That" onerror="this.style.display='none'"></td><td>Talk About That</td><td>$184.65</td><td>$156.95</td><td>4,600</td><td>$29</td><td>Audio</td><td>1/week</td><td>60% male</td><td>64% 18–44</td></tr><tr><td><img class="la-logo" src="https://i.swncdn.com/lifeaudio/400w/podcast/show/14/image/639101115383123482-rss.webp" alt="Faith Under Fire" onerror="this.style.display='none'"></td><td>Faith Under Fire</td><td>$8.03</td><td>$6.82</td><td>200</td><td>$29</td><td>Audio</td><td>1/week</td><td>95% female</td><td>90% 45–59</td></tr><tr><td></td><td>Christian Parent Crazy World</td><td>$116.41</td><td>$98.94</td><td>2,900</td><td>$29</td><td>Audio</td><td>bi-weekly</td><td>83% female</td><td>72% 28–59</td></tr><tr><td><img class="la-logo" src="https://i.swncdn.com/lifeaudio/400w/podcast/show/14/image/639101115383123482-rss.webp" alt="Your Hope Filled Perspective" onerror="this.style.display='none'"></td><td>Your Hope Filled Perspective</td><td>$64.22</td><td>$54.59</td><td>1,600</td><td>$29</td><td>Audio</td><td>1/week</td><td>—</td><td>—</td></tr><tr><td><img class="la-logo" src="https://i.swncdn.com/lifeaudio/400w/podcast/show/14/image/639101115383123482-rss.webp" alt="Hope For the Journey" onerror="this.style.display='none'"></td><td>Hope For the Journey</td><td>$64.22</td><td>$54.59</td><td>1,600</td><td>$29</td><td>Audio</td><td>—</td><td>—</td><td>—</td></tr><tr><td><img class="la-logo" src="https://i.swncdn.com/lifeaudio/400w/podcast/show/28/image/638058492446103309-rss.webp" alt="Mindful Christian Prayers" onerror="this.style.display='none'"></td><td>Mindful Christian Prayers</td><td>$24.08</td><td>$20.47</td><td>600</td><td>$29</td><td>Audio</td><td>1/week</td><td>90% female</td><td>79% 28–59</td></tr><tr><td><img class="la-logo" src="https://i.swncdn.com/lifeaudio/400w/podcast/show/112/image/638614577236517369-rss.webp" alt="Unhurried Living" onerror="this.style.display='none'"></td><td>Unhurried Living</td><td>$100.35</td><td>$85.30</td><td>2,500</td><td>$29</td><td>Audio</td><td>1/week</td><td>94% female</td><td>57% 35–60</td></tr><tr><td><img class="la-logo" src="https://i.swncdn.com/lifeaudio/400w/podcast/show/112/image/638614577236517369-rss.webp" alt="That's Just What I Needed" onerror="this.style.display='none'"></td><td>That's Just What I Needed</td><td>$116.41</td><td>$98.94</td><td>2,900</td><td>$29</td><td>Audio</td><td>1/week</td><td>—</td><td>—</td></tr></tbody>
@@ -115,6 +129,21 @@
 </div>
 <script></script>
 <script>
+
+// Show edit button if already admin
+(function() {
+  function tryUnlock() {
+    if (localStorage.getItem('salem_is_admin') === '1') {
+      var btn = document.getElementById('editBtn');
+      if (btn) btn.style.display = '';
+    }
+  }
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', tryUnlock);
+  } else {
+    tryUnlock();
+  }
+})();
 
 
 const RATE_DEFAULTS_lifeaudio_html = {
@@ -179,50 +208,46 @@ applyRatesToPage(loadRates());
 
 </script>
 
-<div class="lock-btn" onclick="toggleLockPopup()" title="Admin login">🔒</div>
-<div class="lock-popup" id="lockPopup">
-  <div class="lock-err" id="lockErr">Incorrect password</div>
+
   <input type="password" id="lockPw" placeholder="Admin password" onkeydown="if(event.key==='Enter')doLockLogin()">
   <button onclick="doLockLogin()">Unlock Editing</button>
 </div>
 
+
+
+<div class="admin-modal" id="adminLoginModal">
+  <div class="admin-modal-box">
+    <h3>⚙ Admin Login</h3>
+    <div class="admin-err" id="adminErr">Incorrect password</div>
+    <input type="password" id="adminPwInput" placeholder="Admin password" onkeydown="if(event.key==='Enter')doAdminLogin()">
+    <button onclick="doAdminLogin()">Login</button>
+  </div>
+</div>
+
 <script>
 
-function toggleLockPopup() {
-  var p = document.getElementById('lockPopup');
-  p.classList.toggle('open');
-  if (p.classList.contains('open')) {
-    document.getElementById('lockPw').focus();
-    document.getElementById('lockErr').classList.remove('show');
-  }
-}
-function doLockLogin() {
-  var pw = document.getElementById('lockPw').value;
+function doAdminLogin() {
+  var pw = document.getElementById('adminPwInput').value;
   if (pw === 'salemreps') {
     localStorage.setItem('salem_is_admin', '1');
-    unlockAdminUI();
+    document.getElementById('adminLoginModal').classList.remove('open');
+    document.getElementById('adminPwInput').value = '';
+    var btn = document.getElementById('editBtn');
+    if (btn) btn.style.display = '';
   } else {
-    document.getElementById('lockErr').classList.add('show');
-    document.getElementById('lockPw').value = '';
+    document.getElementById('adminErr').classList.add('show');
+    document.getElementById('adminPwInput').value = '';
   }
 }
-function unlockAdminUI() {
-  document.getElementById('lockPopup').classList.remove('open');
-  document.getElementById('lockPw').value = '';
-  var lb = document.querySelector('.lock-btn');
-  if (lb) lb.textContent = '🔓';
-  document.querySelectorAll('.admin-btn').forEach(function(b) {
-    b.style.display = '';
-  });
-}
-// Auto-unlock if already admin from a previous page
-(function() {
-  if (localStorage.getItem('salem_is_admin') === '1') {
-    document.addEventListener('DOMContentLoaded', function() {
-      unlockAdminUI();
-    });
-  }
-})();
+document.querySelector('.header-subtitle-right').addEventListener('click', function() {
+  if (localStorage.getItem('salem_is_admin') === '1') return;
+  document.getElementById('adminErr').classList.remove('show');
+  document.getElementById('adminLoginModal').classList.add('open');
+  setTimeout(function(){ document.getElementById('adminPwInput').focus(); }, 100);
+});
+document.getElementById('adminLoginModal').addEventListener('click', function(e) {
+  if (e.target === this) this.classList.remove('open');
+});
 
 </script>
 </body></html>
