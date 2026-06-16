@@ -80,22 +80,17 @@ var RATE_LABELS={"hu_r":"History Unplugged Rate","hu_n":"History Unplugged NET",
 
 <script>
 // Auto-show edit button if admin session active
-document.addEventListener('DOMContentLoaded', function() {
-  // Check multiple storage locations
-  var isAdm = false;
-  try { isAdm = localStorage.getItem('salem_is_admin') === '1'; } catch(e) {}
-  try { if (!isAdm) isAdm = sessionStorage.getItem('salem_is_admin') === '1'; } catch(e) {}
-  
-  if (isAdm) {
-    showAdminBtn();
+// Show edit button if ?admin=1 in URL
+(function() {
+  var params = new URLSearchParams(window.location.search);
+  if (params.get('admin') === '1') {
+    // Add ?admin=1 to back button
+    var backBtn = document.querySelector('.back-btn');
+    if (backBtn) backBtn.href = 'index.html?auth=1&admin=1';
+    // Show edit button immediately
+    document.write('<style>#editBtn{display:inline-block!important}</style>');
   }
-});
-
-function showAdminBtn() {
-  var btn = document.getElementById('editBtn');
-  if (btn) {
-    btn.style.setProperty('display', 'inline-block', 'important');
-  }
+})();
   try { localStorage.setItem('salem_is_admin', '1'); } catch(e) {}
   try { sessionStorage.setItem('salem_is_admin', '1'); } catch(e) {}
 }
