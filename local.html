@@ -90,9 +90,12 @@ var RATE_LABELS={"ccm_full":"CCM Email Full","ccm_partial":"CCM Email Partial","
 
 <script>
 // Auto-show edit button if admin session active
-if (localStorage.getItem('salem_is_admin') === '1') {
-  document.getElementById('editBtn').style.display = '';
-}
+document.addEventListener('DOMContentLoaded', function() {
+  if (localStorage.getItem('salem_is_admin') === '1') {
+    var btn = document.getElementById('editBtn');
+    if (btn) btn.style.display = '';
+  }
+});
 function openEditModal() {
   var rates = loadRates();
   var grid = document.getElementById('editFormGrid');

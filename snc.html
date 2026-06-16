@@ -91,9 +91,12 @@ var RATE_LABELS={"ron_15":"RON 15s","ron_30":"RON 30s","ron_60":"RON 60s","at_th
 
 <script>
 // Auto-show edit button if admin session active
-if (localStorage.getItem('salem_is_admin') === '1') {
-  document.getElementById('editBtn').style.display = '';
-}
+document.addEventListener('DOMContentLoaded', function() {
+  if (localStorage.getItem('salem_is_admin') === '1') {
+    var btn = document.getElementById('editBtn');
+    if (btn) btn.style.display = '';
+  }
+});
 function openEditModal() {
   var rates = loadRates();
   var grid = document.getElementById('editFormGrid');
