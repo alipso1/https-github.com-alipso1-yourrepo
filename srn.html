@@ -111,11 +111,19 @@ var RATE_LABELS={"stigall_60":"Chris Stigall :60 NET","stigall_30":"Chris Stigal
 (function() {
   var params = new URLSearchParams(window.location.search);
   if (params.get('admin') === '1') {
-    // Add ?admin=1 to back button
-    var backBtn = document.querySelector('.back-btn');
-    if (backBtn) backBtn.href = 'index.html?auth=1&admin=1';
-    // Show edit button immediately
-    document.write('<style>#editBtn{display:inline-block!important}</style>');
+    // Inject style tag to force show edit button
+    var s = document.createElement('style');
+    s.textContent = '#editBtn{display:inline-block!important;visibility:visible!important;}';
+    document.head.appendChild(s);
+    // Also try direct DOM manipulation after load
+    window.addEventListener('load', function() {
+      var btn = document.getElementById('editBtn');
+      if (btn) {
+        btn.style.cssText = 'display:inline-block!important;visibility:visible!important;';
+      }
+      var backBtn = document.querySelector('.back-btn');
+      if (backBtn) backBtn.href = 'index.html?auth=1&admin=1';
+    });
   }
 })();
   try { localStorage.setItem('salem_is_admin', '1'); } catch(e) {}
