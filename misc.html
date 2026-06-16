@@ -62,35 +62,20 @@
   .save-toast { position: fixed; bottom: 24px; right: 24px; background: #4CAF7D; color: #fff; padding: 10px 18px; border-radius: 8px; font-size: 13px; font-weight: 600; z-index: 300; opacity: 0; transform: translateY(10px); transition: opacity 0.3s, transform 0.3s; pointer-events: none; }
   .save-toast.show { opacity: 1; transform: translateY(0); }
 
+
+  .lock-btn { position: fixed; bottom: 24px; right: 24px; width: 44px; height: 44px; background: var(--navy-light); border: 1px solid var(--border); border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 18px; z-index: 500; transition: background 0.2s; }
+  .lock-btn:hover { background: var(--tag-bg); border-color: var(--gold); }
+  .lock-popup { display: none; position: fixed; bottom: 80px; right: 24px; background: var(--navy-mid); border: 1px solid var(--border); border-radius: 12px; padding: 16px; z-index: 500; width: 240px; box-shadow: 0 8px 32px rgba(0,0,0,0.5); }
+  .lock-popup.open { display: block; }
+  .lock-popup input { width: 100%; background: var(--navy-light); border: 1px solid var(--border); color: var(--white); padding: 8px 10px; border-radius: 8px; font-size: 13px; outline: none; margin-bottom: 8px; font-family: 'Inter', sans-serif; }
+  .lock-popup input:focus { border-color: var(--gold); }
+  .lock-popup button { width: 100%; background: linear-gradient(135deg, var(--gold), var(--gold-dim)); border: none; color: var(--navy); padding: 8px; border-radius: 8px; font-size: 13px; font-weight: 700; cursor: pointer; font-family: 'Inter', sans-serif; }
+  .lock-err { font-size: 11px; color: #e05a52; margin-bottom: 6px; display: none; }
+  .lock-err.show { display: block; }
 </style>
 </head>
 <body>
-<script>
-// Admin unlock - click SALEM MEDIA text 3 times quickly
-var _logoClicks = 0;
-var _logoTimer = null;
-window.addEventListener('DOMContentLoaded', function() {
-  var trigger = document.getElementById('adminTrigger');
-  if (trigger) {
-    trigger.addEventListener('click', function(e) {
-      e.preventDefault();
-      _logoClicks++;
-      clearTimeout(_logoTimer);
-      if (_logoClicks >= 3) {
-        _logoClicks = 0;
-        var pw = prompt('Admin password:');
-        if (pw === 'salemreps') {
-          document.querySelectorAll('.admin-btn').forEach(function(b) {
-            b.style.display = '';
-          });
-        }
-      } else {
-        _logoTimer = setTimeout(function() { _logoClicks = 0; }, 1000);
-      }
-    });
-  }
-});
-</script>
+
 
 <header>
   <a href="index.html?auth=1" style="text-decoration:none;display:flex;align-items:center;gap:10px;">
@@ -244,6 +229,53 @@ document.getElementById('editModal').addEventListener('click', function(e) {
 
 // Apply saved rates on load
 applyRatesToPage(loadRates());
+
+</script>
+
+<div class="lock-btn" onclick="toggleLockPopup()" title="Admin login">🔒</div>
+<div class="lock-popup" id="lockPopup">
+  <div class="lock-err" id="lockErr">Incorrect password</div>
+  <input type="password" id="lockPw" placeholder="Admin password" onkeydown="if(event.key==='Enter')doLockLogin()">
+  <button onclick="doLockLogin()">Unlock Editing</button>
+</div>
+
+<script>
+
+function toggleLockPopup() {
+  var p = document.getElementById('lockPopup');
+  p.classList.toggle('open');
+  if (p.classList.contains('open')) {
+    document.getElementById('lockPw').focus();
+    document.getElementById('lockErr').classList.remove('show');
+  }
+}
+function doLockLogin() {
+  var pw = document.getElementById('lockPw').value;
+  if (pw === 'salemreps') {
+    localStorage.setItem('salem_is_admin', '1');
+    unlockAdminUI();
+  } else {
+    document.getElementById('lockErr').classList.add('show');
+    document.getElementById('lockPw').value = '';
+  }
+}
+function unlockAdminUI() {
+  document.getElementById('lockPopup').classList.remove('open');
+  document.getElementById('lockPw').value = '';
+  var lb = document.querySelector('.lock-btn');
+  if (lb) lb.textContent = '🔓';
+  document.querySelectorAll('.admin-btn').forEach(function(b) {
+    b.style.display = '';
+  });
+}
+// Auto-unlock if already admin from a previous page
+(function() {
+  if (localStorage.getItem('salem_is_admin') === '1') {
+    document.addEventListener('DOMContentLoaded', function() {
+      unlockAdminUI();
+    });
+  }
+})();
 
 </script>
 </body>
