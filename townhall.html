@@ -117,9 +117,6 @@ var RATE_LABELS={"newsletter":"Newsletter per day","ded_national":"Dedicated Ema
     if (backBtn) backBtn.href = 'index.html?auth=1&admin=1';
   }
 })();
-  try { localStorage.setItem('salem_is_admin', '1'); } catch(e) {}
-  try { sessionStorage.setItem('salem_is_admin', '1'); } catch(e) {}
-}
 function openEditModal() {
   var rates = loadRates();
   var grid = document.getElementById('editFormGrid');

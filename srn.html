@@ -117,14 +117,7 @@ var RATE_LABELS={"stigall_60":"Chris Stigall :60 NET","stigall_30":"Chris Stigal
     var backBtn = document.querySelector('.back-btn');
     if (backBtn) backBtn.href = 'index.html?auth=1&admin=1';
   }
-  // Debug: log to console
-  console.log('admin param:', params.get('admin'), 'isAdm:', isAdm);
-  console.log('body classes:', document.body.className);
-  console.log('editBtn:', document.getElementById('editBtn'));
 })();
-  try { localStorage.setItem('salem_is_admin', '1'); } catch(e) {}
-  try { sessionStorage.setItem('salem_is_admin', '1'); } catch(e) {}
-}
 function openEditModal() {
   var rates = loadRates();
   var grid = document.getElementById('editFormGrid');

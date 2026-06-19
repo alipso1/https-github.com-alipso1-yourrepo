@@ -109,9 +109,6 @@ var RATE_LABELS={"mr_ron":"Mid-Roll RON","mr_1t":"Mid-Roll 1 Target","mr_2t":"Mi
     if (backBtn) backBtn.href = 'index.html?auth=1&admin=1';
   }
 })();
-  try { localStorage.setItem('salem_is_admin', '1'); } catch(e) {}
-  try { sessionStorage.setItem('salem_is_admin', '1'); } catch(e) {}
-}
 function openEditModal() {
   var rates = loadRates();
   var grid = document.getElementById('editFormGrid');
