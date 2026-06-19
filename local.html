@@ -43,6 +43,7 @@
   .save-toast.show{opacity:1;transform:translateY(0);}
   .la-logo{width:44px;height:44px;border-radius:7px;object-fit:cover;vertical-align:middle;}
   @media(max-width:768px){header{padding:0 16px;}.controls{padding:10px 16px;top:60px;}.rate-table{width:calc(100% - 32px);margin:0 16px 24px;}.page-title,.note-box{padding-left:16px;padding-right:16px;}.form-grid{grid-column:1fr;}}
+  .editing-cell{background:rgba(200,168,75,0.12)!important;outline:1px dashed var(--gold);cursor:text;}
 </style>
 </head>
 <body>
@@ -53,41 +54,26 @@
 <div class="controls">
   <a class="back-btn" href="index.html?auth=1">← Back to All Networks</a>
   <button class="admin-btn" id="editBtn" onclick="openEditModal()">⚙ Edit Rate Card</button>
+  <button class="admin-btn" id="cancelEditBtn" onclick="cancelTableEdits()" style="display:none;background:transparent;border:1px solid var(--border);color:var(--muted);margin-left:8px;">Cancel</button>
 </div>
 <div class="page-title">Local Station</div>
 
 <div class="note-box">$1,500 minimum for email blasts.</div>
 <table class="rate-table"><thead><tr><th>Tactic</th><th>Full Rate</th><th>Partial Rate</th><th>Subscribers</th></tr></thead><tbody>
 <tr class="section-header"><td colspan="4">Dedicated Email</td></tr>
-<tr><td>CCM Stations</td><td data-rk="ccm_full">$18 CPM</td><td data-rk="ccm_partial">$24 CPM</td><td>190K / 315K / 187K</td></tr>
-<tr><td>CTT Stations</td><td data-rk="ctt_full">$21 CPM</td><td data-rk="ctt_partial">$28 CPM</td><td>407K / 687K / 554K</td></tr>
-<tr><td>NT Stations</td><td data-rk="nt_full">$21 CPM</td><td data-rk="nt_partial">$28 CPM</td><td>72K / 151K / 139K</td></tr>
+<tr><td>CCM Stations</td><td>$18 CPM</td><td>$24 CPM</td><td>190K / 315K / 187K</td></tr>
+<tr><td>CTT Stations</td><td>$21 CPM</td><td>$28 CPM</td><td>407K / 687K / 554K</td></tr>
+<tr><td>NT Stations</td><td>$21 CPM</td><td>$28 CPM</td><td>72K / 151K / 139K</td></tr>
 <tr class="section-header"><td colspan="4">Digital</td></tr>
-<tr><td>Facebook Posts (per station)</td><td data-rk="facebook" colspan="2">$295</td><td>—</td></tr>
-<tr><td>Mobile App Push Notifications</td><td data-rk="push" colspan="2">$588</td><td>—</td></tr>
-<tr><td>Run of Station Display</td><td data-rk="display_cpm" colspan="2">$17 CPM</td><td>Avg. 1.2M monthly users</td></tr>
+<tr><td>Facebook Posts (per station)</td><td colspan="2">$295</td><td>—</td></tr>
+<tr><td>Mobile App Push Notifications</td><td colspan="2">$588</td><td>—</td></tr>
+<tr><td>Run of Station Display</td><td colspan="2">$17 CPM</td><td>Avg. 1.2M monthly users</td></tr>
 </tbody></table>
 
-<div class="modal-overlay" id="editModal">
-  <div class="modal">
-    <div class="modal-header">
-      <h2>⚙ Edit Rate Card</h2>
-      <button class="modal-close" onclick="closeEditModal()">✕</button>
-    </div>
-    <div class="form-grid" id="editFormGrid"></div>
-    <div class="form-actions">
-      <button class="btn-cancel" onclick="closeEditModal()">Cancel</button>
-      <button class="btn-save" onclick="saveRates()">Save Changes</button>
-    </div>
-  </div>
-</div>
+
 <div class="save-toast" id="saveToast">✓ Rate card updated!</div>
 
-<script>
-var RATE_KEY="salem_local_v3";
-var RATE_DEFAULTS={"ccm_full":"$18","ccm_partial":"$24","ctt_full":"$21","ctt_partial":"$28","nt_full":"$21","nt_partial":"$28","facebook":"$295","push":"$588","display_cpm":"$17"};
-var RATE_LABELS={"ccm_full":"CCM Email Full","ccm_partial":"CCM Email Partial","ctt_full":"CTT Email Full","ctt_partial":"CTT Email Partial","nt_full":"NT Email Full","nt_partial":"NT Email Partial","facebook":"Facebook Posts per station","push":"Push Notifications","display_cpm":"Run of Station Display CPM"};
-</script>
+
 
 <script>
 // Auto-show edit button if admin session active
@@ -100,44 +86,7 @@ var RATE_LABELS={"ccm_full":"CCM Email Full","ccm_partial":"CCM Email Partial","
     if (backBtn) backBtn.href = 'index.html?auth=1&admin=1';
   }
 })();
-function openEditModal() {
-  var rates = loadRates();
-  var grid = document.getElementById('editFormGrid');
-  grid.innerHTML = '';
-  Object.keys(RATE_DEFAULTS).forEach(function(k) {
-    var div = document.createElement('div');
-    div.className = 'form-field';
-    div.innerHTML = '<label>' + (RATE_LABELS[k]||k) + '</label><input type="text" data-key="' + k + '" value="' + (rates[k]||'') + '">';
-    grid.appendChild(div);
-  });
-  document.getElementById('editModal').classList.add('open');
-}
-function closeEditModal() { document.getElementById('editModal').classList.remove('open'); }
-function saveRates() {
-  var rates = {};
-  document.querySelectorAll('#editFormGrid [data-key]').forEach(function(inp) {
-    rates[inp.getAttribute('data-key')] = inp.value.trim();
-  });
-  localStorage.setItem(RATE_KEY, JSON.stringify(rates));
-  applyRates(rates);
-  closeEditModal();
-  var t = document.getElementById('saveToast');
-  t.classList.add('show');
-  setTimeout(function(){ t.classList.remove('show'); }, 2500);
-}
-document.getElementById('editModal').addEventListener('click', function(e) {
-  if (e.target === this) closeEditModal();
-});
-function loadRates() {
-  try { var s = localStorage.getItem(RATE_KEY); return s ? JSON.parse(s) : RATE_DEFAULTS; } catch(e) { return RATE_DEFAULTS; }
-}
-function applyRates(rates) {
-  document.querySelectorAll('[data-rk]').forEach(function(el) {
-    var k = el.getAttribute('data-rk');
-    if (rates[k] !== undefined) el.textContent = rates[k];
-  });
-}
-applyRates(loadRates());
+
 </script>
 
 <script>
@@ -155,5 +104,80 @@ applyRates(loadRates());
   }
 })();
 </script>
+<script>
+var TABLE_STORAGE_KEY = "salem_local_tables_v1";
+</script>
+
+<script>
+var EDIT_MODE = false;
+
+function openEditModal() {
+  if (EDIT_MODE) return;
+  EDIT_MODE = true;
+  document.querySelectorAll('.rate-table td').forEach(function(td) {
+    td.setAttribute('contenteditable', 'true');
+    td.classList.add('editing-cell');
+  });
+  document.getElementById('editBtn').textContent = '💾 Save Changes';
+  document.getElementById('editBtn').onclick = saveTableEdits;
+  showCancelBtn();
+}
+
+function saveTableEdits() {
+  document.querySelectorAll('.rate-table td').forEach(function(td) {
+    td.removeAttribute('contenteditable');
+    td.classList.remove('editing-cell');
+  });
+  // Save all tables' HTML to localStorage
+  var tables = document.querySelectorAll('.rate-table');
+  var saved = [];
+  tables.forEach(function(t) { saved.push(t.innerHTML); });
+  localStorage.setItem(TABLE_STORAGE_KEY, JSON.stringify(saved));
+  EDIT_MODE = false;
+  document.getElementById('editBtn').textContent = '⚙ Edit Rate Card';
+  document.getElementById('editBtn').onclick = openEditModal;
+  hideCancelBtn();
+  var t = document.getElementById('saveToast');
+  t.classList.add('show');
+  setTimeout(function(){ t.classList.remove('show'); }, 2500);
+}
+
+function cancelTableEdits() {
+  // Reload saved version (or default) without saving current edits
+  loadSavedTables();
+  document.querySelectorAll('.rate-table td').forEach(function(td) {
+    td.removeAttribute('contenteditable');
+    td.classList.remove('editing-cell');
+  });
+  EDIT_MODE = false;
+  document.getElementById('editBtn').textContent = '⚙ Edit Rate Card';
+  document.getElementById('editBtn').onclick = openEditModal;
+  hideCancelBtn();
+}
+
+function showCancelBtn() {
+  var btn = document.getElementById('cancelEditBtn');
+  if (btn) btn.style.display = 'inline-block';
+}
+function hideCancelBtn() {
+  var btn = document.getElementById('cancelEditBtn');
+  if (btn) btn.style.display = 'none';
+}
+
+function loadSavedTables() {
+  try {
+    var saved = localStorage.getItem(TABLE_STORAGE_KEY);
+    if (saved) {
+      var arr = JSON.parse(saved);
+      var tables = document.querySelectorAll('.rate-table');
+      tables.forEach(function(t, i) {
+        if (arr[i] !== undefined) t.innerHTML = arr[i];
+      });
+    }
+  } catch(e) {}
+}
+loadSavedTables();
+</script>
+
 </body>
 </html>

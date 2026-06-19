@@ -43,6 +43,7 @@
   .save-toast.show{opacity:1;transform:translateY(0);}
   .la-logo{width:44px;height:44px;border-radius:7px;object-fit:cover;vertical-align:middle;}
   @media(max-width:768px){header{padding:0 16px;}.controls{padding:10px 16px;top:60px;}.rate-table{width:calc(100% - 32px);margin:0 16px 24px;}.page-title,.note-box{padding-left:16px;padding-right:16px;}.form-grid{grid-column:1fr;}}
+  .editing-cell{background:rgba(200,168,75,0.12)!important;outline:1px dashed var(--gold);cursor:text;}
 </style>
 </head>
 <body>
@@ -53,32 +54,17 @@
 <div class="controls">
   <a class="back-btn" href="index.html?auth=1">← Back to All Networks</a>
   <button class="admin-btn" id="editBtn" onclick="openEditModal()">⚙ Edit Rate Card</button>
+  <button class="admin-btn" id="cancelEditBtn" onclick="cancelTableEdits()" style="display:none;background:transparent;border:1px solid var(--border);color:var(--muted);margin-left:8px;">Cancel</button>
 </div>
 <div class="page-title">Life Audio</div>
 
-<div class="note-box">CPM: <span data-rk="std_net">$29</span> NET / <span data-rk="std_gross">$34.12</span> Gross | Interview: <span data-rk="interview">$1,176.50</span> | Social: <span data-rk="social">$470.59</span> | Email CPM: <span data-rk="email_cpm">$35.29</span> | Mid-Roll 3x/wk: <span data-rk="midroll">$1,176.50</span> | Social Audience Pkg: <span data-rk="social_pkg">$5,882.35</span></div>
+<div class="note-box">CPM: <span>$29</span> NET / <span>$34.12</span> Gross | Interview: <span>$1,176.50</span> | Social: <span>$470.59</span> | Email CPM: <span>$35.29</span> | Mid-Roll 3x/wk: <span>$1,176.50</span> | Social Audience Pkg: <span>$5,882.35</span></div>
 <table class="rate-table"><thead><tr><th></th><th>Podcast</th><th>Weekly Rate</th><th>Weekly NET</th><th>Weekly DLs</th><th>Frequency</th><th>Gender</th></tr></thead><tbody><tr><td><img class="la-logo" src="https://i.swncdn.com/lifeaudio/400w/podcast/show/28/image/638058492446103309-rss.webp" alt="" onerror="this.style.display='none'"></td><td>Your Daily Prayer</td><td>$5,302.55</td><td>$4,507.05</td><td>132,100</td><td>7/week</td><td>71% female</td></tr><tr><td><img class="la-logo" src="https://i.swncdn.com/lifeaudio/400w/podcast/show/124/image/638886996083643735-rss.webp" alt="" onerror="this.style.display='none'"></td><td>Abide – Bible Sleep Meditation</td><td>$3,139.00</td><td>$2,668.07</td><td>78,200</td><td>2/week</td><td>71% female</td></tr><tr><td><img class="la-logo" src="https://i.swncdn.com/lifeaudio/400w/podcast/show/124/image/638886996083643735-rss.webp" alt="" onerror="this.style.display='none'"></td><td>Abide – Daily Meditation</td><td>$1,224.28</td><td>$1,040.61</td><td>30,500</td><td>7/week</td><td>74% female</td></tr><tr><td><img class="la-logo" src="https://i.swncdn.com/lifeaudio/400w/podcast/show/15/image/638271720673476650-rss.webp" alt="" onerror="this.style.display='none'"></td><td>Your Daily Bible Verse</td><td>$6,017.05</td><td>$5,114.36</td><td>149,900</td><td>7/week</td><td>65% female</td></tr><tr><td><img class="la-logo" src="https://i.swncdn.com/lifeaudio/400w/podcast/show/150/image/638219088750615077-rss.webp" alt="" onerror="this.style.display='none'"></td><td>The Bible Study Podcast</td><td>$1,324.63</td><td>$1,125.91</td><td>33,000</td><td>1/week</td><td>60% female</td></tr><tr><td><img class="la-logo" src="https://i.swncdn.com/lifeaudio/400w/podcast/show/175/image/638639025660496366-rss.webp" alt="" onerror="this.style.display='none'"></td><td>Jesus Calling</td><td>$987.45</td><td>$839.32</td><td>24,600</td><td>1/week</td><td>60% female</td></tr><tr><td><img class="la-logo" src="https://i.swncdn.com/lifeaudio/400w/podcast/show/143/image/638199036060942876-rss.webp" alt="" onerror="this.style.display='none'"></td><td>Chapter A Day Audio Bible</td><td>$1,184.14</td><td>$1,006.50</td><td>29,500</td><td>7/week</td><td>50% male</td></tr><tr><td><img class="la-logo" src="https://i.swncdn.com/lifeaudio/400w/podcast/show/19/image/638611524564020230-rss.webp" alt="" onerror="this.style.display='none'"></td><td>Crosswalk Devotional</td><td>$911.19</td><td>$774.49</td><td>22,700</td><td>5/week</td><td>74% female</td></tr><tr><td><img class="la-logo" src="https://i.swncdn.com/lifeaudio/400w/podcast/show/120/image/638125164028269351-rss.webp" alt="" onerror="this.style.display='none'"></td><td>Abide – Bedtime Stories For Kids</td><td>$822.88</td><td>$699.43</td><td>20,500</td><td>1/month</td><td>72% female</td></tr><tr><td><img class="la-logo" src="https://i.swncdn.com/lifeaudio/400w/podcast/show/201/image/638906987029682796-rss.webp" alt="" onerror="this.style.display='none'"></td><td>The Sean McDowell Show</td><td>$481.68</td><td>$409.42</td><td>12,000</td><td>—</td><td>—</td></tr><tr><td><img class="la-logo" src="https://i.swncdn.com/lifeaudio/400w/podcast/show/168/image/639010413592662361-rss.webp" alt="" onerror="this.style.display='none'"></td><td>The Built Different Podcast</td><td>$180.63</td><td>$153.53</td><td>4,500</td><td>1/month</td><td>72% female</td></tr><tr><td><img class="la-logo" src="https://i.swncdn.com/lifeaudio/400w/podcast/show/185/image/638701970401798974-rss.webp" alt="" onerror="this.style.display='none'"></td><td>Your Nightly Prayer</td><td>$610.13</td><td>$518.60</td><td>15,200</td><td>1/week</td><td>—</td></tr><tr><td><img class="la-logo" src="https://i.swncdn.com/lifeaudio/400w/podcast/show/93/image/638096400347281216-rss.webp" alt="" onerror="this.style.display='none'"></td><td>The Becket Cook Show</td><td>$369.29</td><td>$313.89</td><td>9,200</td><td>1/week</td><td>71% female</td></tr><tr><td><img class="la-logo" src="https://i.swncdn.com/lifeaudio/400w/podcast/show/17/image/638060148160300648-rss.webp" alt="" onerror="this.style.display='none'"></td><td>How to Study the Bible</td><td>$441.54</td><td>$375.30</td><td>11,000</td><td>1/week</td><td>69% female</td></tr><tr><td><img class="la-logo" src="https://i.swncdn.com/lifeaudio/400w/podcast/show/14/image/639101115383123482-rss.webp" alt="" onerror="this.style.display='none'"></td><td>Bought & Beloved</td><td>$180.63</td><td>$153.53</td><td>4,500</td><td>1/week</td><td>69% female</td></tr><tr><td><img class="la-logo" src="https://i.swncdn.com/lifeaudio/400w/podcast/show/200/image/638882545631487067-rss.webp" alt="" onerror="this.style.display='none'"></td><td>The Greg Laurie Show</td><td>$168.59</td><td>$143.30</td><td>4,200</td><td>—</td><td>—</td></tr><tr><td><img class="la-logo" src="https://i.swncdn.com/lifeaudio/400w/podcast/show/96/image/638102520189994730-rss.webp" alt="" onerror="this.style.display='none'"></td><td>Inside the Epicenter</td><td>$220.77</td><td>$187.65</td><td>5,500</td><td>1/week</td><td>51% male</td></tr><tr><td><img class="la-logo" src="https://i.swncdn.com/lifeaudio/400w/podcast/show/112/image/638614577236517369-rss.webp" alt="" onerror="this.style.display='none'"></td><td>Unhurried Living</td><td>$100.35</td><td>$85.30</td><td>2,500</td><td>1/week</td><td>94% female</td></tr><tr><td><img class="la-logo" src="https://i.swncdn.com/lifeaudio/400w/podcast/show/95/image/638639172488696180-rss.webp" alt="" onerror="this.style.display='none'"></td><td>March or Die</td><td>$80.28</td><td>$68.24</td><td>2,000</td><td>1/week</td><td>76% male</td></tr><tr><td><img class="la-logo" src="https://i.swncdn.com/lifeaudio/400w/podcast/show/116/image/638321076947965605-rss.webp" alt="" onerror="this.style.display='none'"></td><td>Talk About That</td><td>$184.65</td><td>$156.95</td><td>4,600</td><td>1/week</td><td>60% male</td></tr><tr><td><img class="la-logo" src="https://i.swncdn.com/lifeaudio/400w/podcast/show/127/image/638621658719315208-rss.webp" alt="" onerror="this.style.display='none'"></td><td>Rebuilding Us</td><td>$228.80</td><td>$194.48</td><td>5,700</td><td>—</td><td>68% female</td></tr><tr><td><img class="la-logo" src="https://i.swncdn.com/lifeaudio/400w/podcast/show/126/image/638610012636732357-rss.webp" alt="" onerror="this.style.display='none'"></td><td>Untangling Prayer</td><td>$124.44</td><td>$105.77</td><td>3,100</td><td>1/week</td><td>95% female</td></tr><tr><td><img class="la-logo" src="https://i.swncdn.com/lifeaudio/400w/podcast/show/42/image/638065368062034310-rss.webp" alt="" onerror="this.style.display='none'"></td><td>Christian Parent, Crazy World</td><td>$116.41</td><td>$98.94</td><td>2,900</td><td>bi-weekly</td><td>83% female</td></tr><tr><td><img class="la-logo" src="https://i.swncdn.com/lifeaudio/400w/podcast/show/205/image/639020727190838295-rss.webp" alt="" onerror="this.style.display='none'"></td><td>The Happy Home with Arlene Pellicane</td><td>$160.56</td><td>$136.47</td><td>4,000</td><td>1/week</td><td>83% female</td></tr><tr><td></td><td>Faith Over Fear</td><td>$317.11</td><td>$269.54</td><td>7,900</td><td>1/week</td><td>81% female</td></tr><tr><td></td><td>Breathe: The Stress Less Podcast</td><td>$122.43</td><td>$104.06</td><td>3,050</td><td>1/week</td><td>85% female</td></tr><tr><td></td><td>So Much More</td><td>$285.00</td><td>$242.24</td><td>7,100</td><td>2/week</td><td>89% female</td></tr><tr><td></td><td>Praying Christian Women</td><td>$268.94</td><td>$228.59</td><td>6,700</td><td>1/week</td><td>—</td></tr><tr><td></td><td>Brad Stine Has Issues</td><td>$28.10</td><td>$23.88</td><td>700</td><td>—</td><td>—</td></tr><tr><td></td><td>Abide – Prayer Meditation</td><td>$120.42</td><td>$102.36</td><td>3,000</td><td>1/week</td><td>69% female</td></tr><tr><td></td><td>Team Us</td><td>$136.48</td><td>$116.00</td><td>3,400</td><td>1/week</td><td>90% female</td></tr><tr><td></td><td>But Jesus Drank Wine</td><td>$248.87</td><td>$211.53</td><td>6,200</td><td>1/week</td><td>—</td></tr><tr><td></td><td>Everyday Prayer – Million Praying Moms</td><td>$248.87</td><td>$211.53</td><td>6,200</td><td>1/week</td><td>84% female</td></tr><tr><td></td><td>Compared to Who?</td><td>$116.41</td><td>$98.94</td><td>2,900</td><td>2/week</td><td>94% female</td></tr><tr><td></td><td>Teach Us to Pray</td><td>$136.48</td><td>$116.00</td><td>3,400</td><td>1/week</td><td>80% female</td></tr><tr><td></td><td>The Walk</td><td>$116.41</td><td>$98.94</td><td>2,900</td><td>1/week</td><td>—</td></tr><tr><td></td><td>Crosswalk Talk</td><td>$80.28</td><td>$68.24</td><td>2,000</td><td>1/week</td><td>94% female</td></tr><tr><td></td><td>Dwell on These Things</td><td>$60.21</td><td>$51.18</td><td>1,500</td><td>1/week</td><td>—</td></tr><tr><td></td><td>Daily Devotions with Pastor John</td><td>$100.35</td><td>$85.30</td><td>2,500</td><td>7/week</td><td>59% female</td></tr><tr><td></td><td>Story Behind</td><td>$80.28</td><td>$68.24</td><td>2,000</td><td>1/week</td><td>95% female</td></tr><tr><td></td><td>The Love Offering</td><td>$124.44</td><td>$105.77</td><td>3,100</td><td>1/week</td><td>83% female</td></tr><tr><td></td><td>Confessions of a Christian Alcoholic</td><td>$160.56</td><td>$136.47</td><td>4,000</td><td>1/week</td><td>—</td></tr><tr><td></td><td>Faith Under Fire</td><td>$8.03</td><td>$6.82</td><td>200</td><td>1/week</td><td>95% female</td></tr><tr><td></td><td>Your Hope Filled Perspective</td><td>$64.22</td><td>$54.59</td><td>1,600</td><td>1/week</td><td>—</td></tr><tr><td></td><td>Hope For the Journey</td><td>$64.22</td><td>$54.59</td><td>1,600</td><td>—</td><td>—</td></tr><tr><td></td><td>Mindful Christian Prayers</td><td>$24.08</td><td>$20.47</td><td>600</td><td>1/week</td><td>90% female</td></tr><tr><td></td><td>That's Just What I Needed</td><td>$116.41</td><td>$98.94</td><td>2,900</td><td>1/week</td><td>—</td></tr></tbody></table>
 
-<div class="modal-overlay" id="editModal">
-  <div class="modal">
-    <div class="modal-header">
-      <h2>⚙ Edit Rate Card</h2>
-      <button class="modal-close" onclick="closeEditModal()">✕</button>
-    </div>
-    <div class="form-grid" id="editFormGrid"></div>
-    <div class="form-actions">
-      <button class="btn-cancel" onclick="closeEditModal()">Cancel</button>
-      <button class="btn-save" onclick="saveRates()">Save Changes</button>
-    </div>
-  </div>
-</div>
+
 <div class="save-toast" id="saveToast">✓ Rate card updated!</div>
 
-<script>
-var RATE_KEY="salem_lifeaudio_v3";
-var RATE_DEFAULTS={"std_net":"$29","std_gross":"$34.12","interview":"$1,176.50","social":"$470.59","email_cpm":"$35.29","midroll":"$1,176.50","social_pkg":"$5,882.35"};
-var RATE_LABELS={"std_net":"Standard CPM NET","std_gross":"Standard CPM Gross","interview":"Interview Rate","social":"Social Media Rate","email_cpm":"Email CPM","midroll":"Mid-Roll 3x/week","social_pkg":"Social Audience Package"};
-</script>
+
 
 <script>
 // Auto-show edit button if admin session active
@@ -91,44 +77,7 @@ var RATE_LABELS={"std_net":"Standard CPM NET","std_gross":"Standard CPM Gross","
     if (backBtn) backBtn.href = 'index.html?auth=1&admin=1';
   }
 })();
-function openEditModal() {
-  var rates = loadRates();
-  var grid = document.getElementById('editFormGrid');
-  grid.innerHTML = '';
-  Object.keys(RATE_DEFAULTS).forEach(function(k) {
-    var div = document.createElement('div');
-    div.className = 'form-field';
-    div.innerHTML = '<label>' + (RATE_LABELS[k]||k) + '</label><input type="text" data-key="' + k + '" value="' + (rates[k]||'') + '">';
-    grid.appendChild(div);
-  });
-  document.getElementById('editModal').classList.add('open');
-}
-function closeEditModal() { document.getElementById('editModal').classList.remove('open'); }
-function saveRates() {
-  var rates = {};
-  document.querySelectorAll('#editFormGrid [data-key]').forEach(function(inp) {
-    rates[inp.getAttribute('data-key')] = inp.value.trim();
-  });
-  localStorage.setItem(RATE_KEY, JSON.stringify(rates));
-  applyRates(rates);
-  closeEditModal();
-  var t = document.getElementById('saveToast');
-  t.classList.add('show');
-  setTimeout(function(){ t.classList.remove('show'); }, 2500);
-}
-document.getElementById('editModal').addEventListener('click', function(e) {
-  if (e.target === this) closeEditModal();
-});
-function loadRates() {
-  try { var s = localStorage.getItem(RATE_KEY); return s ? JSON.parse(s) : RATE_DEFAULTS; } catch(e) { return RATE_DEFAULTS; }
-}
-function applyRates(rates) {
-  document.querySelectorAll('[data-rk]').forEach(function(el) {
-    var k = el.getAttribute('data-rk');
-    if (rates[k] !== undefined) el.textContent = rates[k];
-  });
-}
-applyRates(loadRates());
+
 </script>
 
 <script>
@@ -146,5 +95,80 @@ applyRates(loadRates());
   }
 })();
 </script>
+<script>
+var TABLE_STORAGE_KEY = "salem_lifeaudio_tables_v1";
+</script>
+
+<script>
+var EDIT_MODE = false;
+
+function openEditModal() {
+  if (EDIT_MODE) return;
+  EDIT_MODE = true;
+  document.querySelectorAll('.rate-table td').forEach(function(td) {
+    td.setAttribute('contenteditable', 'true');
+    td.classList.add('editing-cell');
+  });
+  document.getElementById('editBtn').textContent = '💾 Save Changes';
+  document.getElementById('editBtn').onclick = saveTableEdits;
+  showCancelBtn();
+}
+
+function saveTableEdits() {
+  document.querySelectorAll('.rate-table td').forEach(function(td) {
+    td.removeAttribute('contenteditable');
+    td.classList.remove('editing-cell');
+  });
+  // Save all tables' HTML to localStorage
+  var tables = document.querySelectorAll('.rate-table');
+  var saved = [];
+  tables.forEach(function(t) { saved.push(t.innerHTML); });
+  localStorage.setItem(TABLE_STORAGE_KEY, JSON.stringify(saved));
+  EDIT_MODE = false;
+  document.getElementById('editBtn').textContent = '⚙ Edit Rate Card';
+  document.getElementById('editBtn').onclick = openEditModal;
+  hideCancelBtn();
+  var t = document.getElementById('saveToast');
+  t.classList.add('show');
+  setTimeout(function(){ t.classList.remove('show'); }, 2500);
+}
+
+function cancelTableEdits() {
+  // Reload saved version (or default) without saving current edits
+  loadSavedTables();
+  document.querySelectorAll('.rate-table td').forEach(function(td) {
+    td.removeAttribute('contenteditable');
+    td.classList.remove('editing-cell');
+  });
+  EDIT_MODE = false;
+  document.getElementById('editBtn').textContent = '⚙ Edit Rate Card';
+  document.getElementById('editBtn').onclick = openEditModal;
+  hideCancelBtn();
+}
+
+function showCancelBtn() {
+  var btn = document.getElementById('cancelEditBtn');
+  if (btn) btn.style.display = 'inline-block';
+}
+function hideCancelBtn() {
+  var btn = document.getElementById('cancelEditBtn');
+  if (btn) btn.style.display = 'none';
+}
+
+function loadSavedTables() {
+  try {
+    var saved = localStorage.getItem(TABLE_STORAGE_KEY);
+    if (saved) {
+      var arr = JSON.parse(saved);
+      var tables = document.querySelectorAll('.rate-table');
+      tables.forEach(function(t, i) {
+        if (arr[i] !== undefined) t.innerHTML = arr[i];
+      });
+    }
+  } catch(e) {}
+}
+loadSavedTables();
+</script>
+
 </body>
 </html>

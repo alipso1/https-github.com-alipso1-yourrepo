@@ -44,6 +44,7 @@
   .la-logo{width:44px;height:44px;border-radius:7px;object-fit:cover;vertical-align:middle;}
   @media(max-width:768px){header{padding:0 16px;}.controls{padding:10px 16px;top:60px;}.rate-table{width:calc(100% - 32px);margin:0 16px 24px;}.page-title,.note-box{padding-left:16px;padding-right:16px;}.form-grid{grid-column:1fr;}}
   .part-logo{width:44px;height:44px;border-radius:7px;object-fit:cover;vertical-align:middle;}
+  .editing-cell{background:rgba(200,168,75,0.12)!important;outline:1px dashed var(--gold);cursor:text;}
 </style>
 </head>
 <body>
@@ -54,31 +55,16 @@
 <div class="controls">
   <a class="back-btn" href="index.html?auth=1">← Back to All Networks</a>
   <button class="admin-btn" id="editBtn" onclick="openEditModal()">⚙ Edit Rate Card</button>
+  <button class="admin-btn" id="cancelEditBtn" onclick="cancelTableEdits()" style="display:none;background:transparent;border:1px solid var(--border);color:var(--muted);margin-left:8px;">Cancel</button>
 </div>
 <div class="page-title">Parthenon (History)</div>
 
-<table class="rate-table"><thead><tr><th></th><th>Podcast</th><th>Weekly Rate</th><th>Weekly NET</th><th>Weekly Impr.</th><th>Frequency</th><th>Gender</th></tr></thead><tbody><tr><td><img class="part-logo" src="https://i.swncdn.com/lifeaudio/400w/podcast/show/59/image/638628804483235532-rss.webp" alt="History Unplugged" onerror="this.style.display='none'"></td><td>History Unplugged</td><td data-rk="hu_r">$3,176.55</td><td data-rk="hu_n">$2,700</td><td>170</td><td>2x/week</td><td>73% male</td></tr><tr><td><img class="part-logo" src="https://i.swncdn.com/lifeaudio/400w/podcast/show/72/image/638472888255448646-rss.webp" alt="Eyewitness History" onerror="this.style.display='none'"></td><td>Eyewitness History</td><td data-rk="ey_r">$41.18</td><td data-rk="ey_n">$35</td><td>3</td><td>Weekly</td><td>62% male</td></tr><tr><td><img class="part-logo" src="https://i.swncdn.com/lifeaudio/400w/podcast/show/62/image/638620812451229471-rss.webp" alt="Key Battles of American History" onerror="this.style.display='none'"></td><td>Key Battles of American History</td><td data-rk="kb_r">$411.78</td><td data-rk="kb_n">$350</td><td>35</td><td>2x/week</td><td>89% male</td></tr><tr><td><img class="part-logo" src="https://i.swncdn.com/lifeaudio/400w/podcast/show/60/image/637732617252616015-rss.webp" alt="Beyond the Big Screen" onerror="this.style.display='none'"></td><td>Beyond the Big Screen</td><td data-rk="bs_r">$23.53</td><td data-rk="bs_n">$20</td><td>115</td><td>3x/week</td><td>74% male</td></tr><tr><td><img class="part-logo" src="https://i.swncdn.com/lifeaudio/400w/podcast/show/61/image/638675352323163370-rss.webp" alt="History of the Papacy" onerror="this.style.display='none'"></td><td>History of the Papacy</td><td data-rk="hp_r">$258.83</td><td data-rk="hp_n">$220</td><td>35</td><td>2x/week</td><td>73% male</td></tr><tr><td><img class="part-logo" src="https://i.swncdn.com/lifeaudio/400w/podcast/show/69/image/638604396813125442-rss.webp" alt="This American President" onerror="this.style.display='none'"></td><td>This American President</td><td data-rk="ap_r">$117.65</td><td data-rk="ap_n">$100</td><td>30</td><td>1x/week</td><td>68% male</td></tr><tr><td><img class="part-logo" src="https://i.swncdn.com/lifeaudio/400w/podcast/show/76/image/638585460628084349-rss.webp" alt="Vlogging Through History" onerror="this.style.display='none'"></td><td>Vlogging Through History</td><td data-rk="vh_r">$23.53</td><td data-rk="vh_n">$20</td><td>1</td><td>2x/week</td><td>93% male</td></tr><tr><td><img class="part-logo" src="https://i.swncdn.com/lifeaudio/400w/podcast/show/141/image/638217504305560869-rss.webp" alt="History of North America" onerror="this.style.display='none'"></td><td>History of North America</td><td data-rk="na_r">$1,323.56</td><td data-rk="na_n">$1,125</td><td>45,000</td><td>Coming Soon</td><td>Coming Soon</td></tr></tbody></table>
+<table class="rate-table"><thead><tr><th></th><th>Podcast</th><th>Weekly Rate</th><th>Weekly NET</th><th>Weekly Impr.</th><th>Frequency</th><th>Gender</th></tr></thead><tbody><tr><td><img class="part-logo" src="https://i.swncdn.com/lifeaudio/400w/podcast/show/59/image/638628804483235532-rss.webp" alt="History Unplugged" onerror="this.style.display='none'"></td><td>History Unplugged</td><td>$3,176.55</td><td>$2,700</td><td>170</td><td>2x/week</td><td>73% male</td></tr><tr><td><img class="part-logo" src="https://i.swncdn.com/lifeaudio/400w/podcast/show/72/image/638472888255448646-rss.webp" alt="Eyewitness History" onerror="this.style.display='none'"></td><td>Eyewitness History</td><td>$41.18</td><td>$35</td><td>3</td><td>Weekly</td><td>62% male</td></tr><tr><td><img class="part-logo" src="https://i.swncdn.com/lifeaudio/400w/podcast/show/62/image/638620812451229471-rss.webp" alt="Key Battles of American History" onerror="this.style.display='none'"></td><td>Key Battles of American History</td><td>$411.78</td><td>$350</td><td>35</td><td>2x/week</td><td>89% male</td></tr><tr><td><img class="part-logo" src="https://i.swncdn.com/lifeaudio/400w/podcast/show/60/image/637732617252616015-rss.webp" alt="Beyond the Big Screen" onerror="this.style.display='none'"></td><td>Beyond the Big Screen</td><td>$23.53</td><td>$20</td><td>115</td><td>3x/week</td><td>74% male</td></tr><tr><td><img class="part-logo" src="https://i.swncdn.com/lifeaudio/400w/podcast/show/61/image/638675352323163370-rss.webp" alt="History of the Papacy" onerror="this.style.display='none'"></td><td>History of the Papacy</td><td>$258.83</td><td>$220</td><td>35</td><td>2x/week</td><td>73% male</td></tr><tr><td><img class="part-logo" src="https://i.swncdn.com/lifeaudio/400w/podcast/show/69/image/638604396813125442-rss.webp" alt="This American President" onerror="this.style.display='none'"></td><td>This American President</td><td>$117.65</td><td>$100</td><td>30</td><td>1x/week</td><td>68% male</td></tr><tr><td><img class="part-logo" src="https://i.swncdn.com/lifeaudio/400w/podcast/show/76/image/638585460628084349-rss.webp" alt="Vlogging Through History" onerror="this.style.display='none'"></td><td>Vlogging Through History</td><td>$23.53</td><td>$20</td><td>1</td><td>2x/week</td><td>93% male</td></tr><tr><td><img class="part-logo" src="https://i.swncdn.com/lifeaudio/400w/podcast/show/141/image/638217504305560869-rss.webp" alt="History of North America" onerror="this.style.display='none'"></td><td>History of North America</td><td>$1,323.56</td><td>$1,125</td><td>45,000</td><td>Coming Soon</td><td>Coming Soon</td></tr></tbody></table>
 
-<div class="modal-overlay" id="editModal">
-  <div class="modal">
-    <div class="modal-header">
-      <h2>⚙ Edit Rate Card</h2>
-      <button class="modal-close" onclick="closeEditModal()">✕</button>
-    </div>
-    <div class="form-grid" id="editFormGrid"></div>
-    <div class="form-actions">
-      <button class="btn-cancel" onclick="closeEditModal()">Cancel</button>
-      <button class="btn-save" onclick="saveRates()">Save Changes</button>
-    </div>
-  </div>
-</div>
+
 <div class="save-toast" id="saveToast">✓ Rate card updated!</div>
 
-<script>
-var RATE_KEY="salem_parthenon_v3";
-var RATE_DEFAULTS={"hu_r":"$3,176.55","hu_n":"$2,700","ey_r":"$41.18","ey_n":"$35","kb_r":"$411.78","kb_n":"$350","bs_r":"$23.53","bs_n":"$20","hp_r":"$258.83","hp_n":"$220","ap_r":"$117.65","ap_n":"$100","vh_r":"$23.53","vh_n":"$20","na_r":"$1,323.56","na_n":"$1,125"};
-var RATE_LABELS={"hu_r":"History Unplugged Rate","hu_n":"History Unplugged NET","ey_r":"Eyewitness History Rate","ey_n":"Eyewitness History NET","kb_r":"Key Battles Rate","kb_n":"Key Battles NET","bs_r":"Beyond Big Screen Rate","bs_n":"Beyond Big Screen NET","hp_r":"History of Papacy Rate","hp_n":"History of Papacy NET","ap_r":"This American President Rate","ap_n":"This American President NET","vh_r":"Vlogging Through History Rate","vh_n":"Vlogging Through History NET","na_r":"History of North America Rate","na_n":"History of North America NET"};
-</script>
+
 
 <script>
 // Auto-show edit button if admin session active
@@ -91,44 +77,7 @@ var RATE_LABELS={"hu_r":"History Unplugged Rate","hu_n":"History Unplugged NET",
     if (backBtn) backBtn.href = 'index.html?auth=1&admin=1';
   }
 })();
-function openEditModal() {
-  var rates = loadRates();
-  var grid = document.getElementById('editFormGrid');
-  grid.innerHTML = '';
-  Object.keys(RATE_DEFAULTS).forEach(function(k) {
-    var div = document.createElement('div');
-    div.className = 'form-field';
-    div.innerHTML = '<label>' + (RATE_LABELS[k]||k) + '</label><input type="text" data-key="' + k + '" value="' + (rates[k]||'') + '">';
-    grid.appendChild(div);
-  });
-  document.getElementById('editModal').classList.add('open');
-}
-function closeEditModal() { document.getElementById('editModal').classList.remove('open'); }
-function saveRates() {
-  var rates = {};
-  document.querySelectorAll('#editFormGrid [data-key]').forEach(function(inp) {
-    rates[inp.getAttribute('data-key')] = inp.value.trim();
-  });
-  localStorage.setItem(RATE_KEY, JSON.stringify(rates));
-  applyRates(rates);
-  closeEditModal();
-  var t = document.getElementById('saveToast');
-  t.classList.add('show');
-  setTimeout(function(){ t.classList.remove('show'); }, 2500);
-}
-document.getElementById('editModal').addEventListener('click', function(e) {
-  if (e.target === this) closeEditModal();
-});
-function loadRates() {
-  try { var s = localStorage.getItem(RATE_KEY); return s ? JSON.parse(s) : RATE_DEFAULTS; } catch(e) { return RATE_DEFAULTS; }
-}
-function applyRates(rates) {
-  document.querySelectorAll('[data-rk]').forEach(function(el) {
-    var k = el.getAttribute('data-rk');
-    if (rates[k] !== undefined) el.textContent = rates[k];
-  });
-}
-applyRates(loadRates());
+
 </script>
 
 <script>
@@ -146,5 +95,80 @@ applyRates(loadRates());
   }
 })();
 </script>
+<script>
+var TABLE_STORAGE_KEY = "salem_parthenon_tables_v1";
+</script>
+
+<script>
+var EDIT_MODE = false;
+
+function openEditModal() {
+  if (EDIT_MODE) return;
+  EDIT_MODE = true;
+  document.querySelectorAll('.rate-table td').forEach(function(td) {
+    td.setAttribute('contenteditable', 'true');
+    td.classList.add('editing-cell');
+  });
+  document.getElementById('editBtn').textContent = '💾 Save Changes';
+  document.getElementById('editBtn').onclick = saveTableEdits;
+  showCancelBtn();
+}
+
+function saveTableEdits() {
+  document.querySelectorAll('.rate-table td').forEach(function(td) {
+    td.removeAttribute('contenteditable');
+    td.classList.remove('editing-cell');
+  });
+  // Save all tables' HTML to localStorage
+  var tables = document.querySelectorAll('.rate-table');
+  var saved = [];
+  tables.forEach(function(t) { saved.push(t.innerHTML); });
+  localStorage.setItem(TABLE_STORAGE_KEY, JSON.stringify(saved));
+  EDIT_MODE = false;
+  document.getElementById('editBtn').textContent = '⚙ Edit Rate Card';
+  document.getElementById('editBtn').onclick = openEditModal;
+  hideCancelBtn();
+  var t = document.getElementById('saveToast');
+  t.classList.add('show');
+  setTimeout(function(){ t.classList.remove('show'); }, 2500);
+}
+
+function cancelTableEdits() {
+  // Reload saved version (or default) without saving current edits
+  loadSavedTables();
+  document.querySelectorAll('.rate-table td').forEach(function(td) {
+    td.removeAttribute('contenteditable');
+    td.classList.remove('editing-cell');
+  });
+  EDIT_MODE = false;
+  document.getElementById('editBtn').textContent = '⚙ Edit Rate Card';
+  document.getElementById('editBtn').onclick = openEditModal;
+  hideCancelBtn();
+}
+
+function showCancelBtn() {
+  var btn = document.getElementById('cancelEditBtn');
+  if (btn) btn.style.display = 'inline-block';
+}
+function hideCancelBtn() {
+  var btn = document.getElementById('cancelEditBtn');
+  if (btn) btn.style.display = 'none';
+}
+
+function loadSavedTables() {
+  try {
+    var saved = localStorage.getItem(TABLE_STORAGE_KEY);
+    if (saved) {
+      var arr = JSON.parse(saved);
+      var tables = document.querySelectorAll('.rate-table');
+      tables.forEach(function(t, i) {
+        if (arr[i] !== undefined) t.innerHTML = arr[i];
+      });
+    }
+  } catch(e) {}
+}
+loadSavedTables();
+</script>
+
 </body>
 </html>

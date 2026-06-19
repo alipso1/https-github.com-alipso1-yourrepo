@@ -43,6 +43,7 @@
   .save-toast.show{opacity:1;transform:translateY(0);}
   .la-logo{width:44px;height:44px;border-radius:7px;object-fit:cover;vertical-align:middle;}
   @media(max-width:768px){header{padding:0 16px;}.controls{padding:10px 16px;top:60px;}.rate-table{width:calc(100% - 32px);margin:0 16px 24px;}.page-title,.note-box{padding-left:16px;padding-right:16px;}.form-grid{grid-column:1fr;}}
+  .editing-cell{background:rgba(200,168,75,0.12)!important;outline:1px dashed var(--gold);cursor:text;}
 </style>
 </head>
 <body>
@@ -53,58 +54,43 @@
 <div class="controls">
   <a class="back-btn" href="index.html?auth=1">← Back to All Networks</a>
   <button class="admin-btn" id="editBtn" onclick="openEditModal()">⚙ Edit Rate Card</button>
+  <button class="admin-btn" id="cancelEditBtn" onclick="cancelTableEdits()" style="display:none;background:transparent;border:1px solid var(--border);color:var(--muted);margin-left:8px;">Cancel</button>
 </div>
 <div class="page-title">Salem Radio Network</div>
 
 <div class="note-box">Rates updated 5/6/26. 360 LIVE$ = Rate × 10× × 4W.</div>
 <table class="rate-table"><thead><tr><th>Host / Product</th><th>Daypart</th><th>:60 NET</th><th>:30 NET</th><th>Min. Monthly</th><th>Podcast DLs</th><th>Affiliates</th></tr></thead><tbody>
 <tr class="section-header"><td colspan="7">Talk Show Hosts</td></tr>
-<tr><td>Chris Stigall</td><td>MF 6a–9a</td><td data-rk="stigall_60">$350</td><td data-rk="stigall_30">$263</td><td>$30,140</td><td>3,100</td><td>147</td></tr>
-<tr><td>Larry O'Connor</td><td>MF 6a–9a</td><td data-rk="oconnor_60">$2,300</td><td data-rk="oconnor_30">$1,800</td><td>$35,800</td><td>1,800</td><td>142</td></tr>
-<tr><td>Mike Gallagher</td><td>MF 9a–12n</td><td data-rk="gallagher_60">$467</td><td data-rk="gallagher_30">$351</td><td>$35,800</td><td>1,800</td><td>142</td></tr>
-<tr><td>Charlie Kirk</td><td>MF 12n–3p</td><td data-rk="kirk_60">$1,000</td><td data-rk="kirk_30">$475</td><td>$50,000</td><td>87,500</td><td>206</td></tr>
-<tr><td>Alex Marlow</td><td>MF 12n–1p</td><td data-rk="marlow_60">$440</td><td data-rk="marlow_30">$330</td><td>$41,000</td><td>26,600</td><td>178</td></tr>
-<tr><td>Scott Jennings</td><td>MF 1p–3p</td><td data-rk="jennings_60">$585</td><td data-rk="jennings_30">$439</td><td>$50,320</td><td>40,000</td><td>206</td></tr>
-<tr><td>Hugh Hewitt</td><td>MF 3p–6p</td><td data-rk="hewitt_60">$300</td><td data-rk="hewitt_30">$225</td><td>$48,320</td><td>9,000</td><td>116</td></tr>
-<tr><td>Larry Elder</td><td>MF 6p–9p</td><td data-rk="elder_60">$270</td><td data-rk="elder_30">$202</td><td>$27,040</td><td>4,400</td><td>108</td></tr>
+<tr><td>Chris Stigall</td><td>MF 6a–9a</td><td>$350</td><td>$263</td><td>$30,140</td><td>3,100</td><td>147</td></tr>
+<tr><td>Larry O'Connor</td><td>MF 6a–9a</td><td>$2,300</td><td>$1,800</td><td>$35,800</td><td>1,800</td><td>142</td></tr>
+<tr><td>Mike Gallagher</td><td>MF 9a–12n</td><td>$467</td><td>$351</td><td>$35,800</td><td>1,800</td><td>142</td></tr>
+<tr><td>Charlie Kirk</td><td>MF 12n–3p</td><td>$1,000</td><td>$475</td><td>$50,000</td><td>87,500</td><td>206</td></tr>
+<tr><td>Alex Marlow</td><td>MF 12n–1p</td><td>$440</td><td>$330</td><td>$41,000</td><td>26,600</td><td>178</td></tr>
+<tr><td>Scott Jennings</td><td>MF 1p–3p</td><td>$585</td><td>$439</td><td>$50,320</td><td>40,000</td><td>206</td></tr>
+<tr><td>Hugh Hewitt</td><td>MF 3p–6p</td><td>$300</td><td>$225</td><td>$48,320</td><td>9,000</td><td>116</td></tr>
+<tr><td>Larry Elder</td><td>MF 6p–9p</td><td>$270</td><td>$202</td><td>$27,040</td><td>4,400</td><td>108</td></tr>
 <tr class="section-header"><td colspan="7">News Packages</td></tr>
-<tr><td>Platinum (SRN News)</td><td>MF/SS 6a–12m</td><td data-rk="platinum_60">$400</td><td data-rk="platinum_30">$275</td><td>—</td><td>—</td><td>70</td></tr>
-<tr><td>Gold (SRN/Townhall News)</td><td>MF/SS 6a–12m</td><td data-rk="gold_60">$800</td><td data-rk="gold_30">$500</td><td>—</td><td>—</td><td>537</td></tr>
-<tr><td>Optima (Townhall News)</td><td>MF/SS 6a–12m</td><td data-rk="optima_60">$700</td><td data-rk="optima_30">$450</td><td>—</td><td>—</td><td>349</td></tr>
+<tr><td>Platinum (SRN News)</td><td>MF/SS 6a–12m</td><td>$400</td><td>$275</td><td>—</td><td>—</td><td>70</td></tr>
+<tr><td>Gold (SRN/Townhall News)</td><td>MF/SS 6a–12m</td><td>$800</td><td>$500</td><td>—</td><td>—</td><td>537</td></tr>
+<tr><td>Optima (Townhall News)</td><td>MF/SS 6a–12m</td><td>$700</td><td>$450</td><td>—</td><td>—</td><td>349</td></tr>
 <tr class="section-header"><td colspan="7">Commentaries</td></tr>
-<tr><td>Focus on the Family</td><td>MF 6a–7p</td><td data-rk="focus_family">$700</td><td>—</td><td>—</td><td>—</td><td>114</td></tr>
-<tr><td>Cal Thomas Commentary</td><td>MF 6a–12m</td><td data-rk="cal_thomas">$150</td><td>—</td><td>—</td><td>—</td><td>74</td></tr>
-<tr><td>One Moment in America</td><td>MF 6a–12m</td><td data-rk="one_moment">$150</td><td>—</td><td>—</td><td>—</td><td>68</td></tr>
-<tr><td>Todd Starnes Commentary</td><td>MF 6a–7p</td><td data-rk="starnes_commentary">$300</td><td>—</td><td>—</td><td>—</td><td>TBD</td></tr>
+<tr><td>Focus on the Family</td><td>MF 6a–7p</td><td>$700</td><td>—</td><td>—</td><td>—</td><td>114</td></tr>
+<tr><td>Cal Thomas Commentary</td><td>MF 6a–12m</td><td>$150</td><td>—</td><td>—</td><td>—</td><td>74</td></tr>
+<tr><td>One Moment in America</td><td>MF 6a–12m</td><td>$150</td><td>—</td><td>—</td><td>—</td><td>68</td></tr>
+<tr><td>Todd Starnes Commentary</td><td>MF 6a–7p</td><td>$300</td><td>—</td><td>—</td><td>—</td><td>TBD</td></tr>
 <tr class="section-header"><td colspan="7">Keep the Faith</td></tr>
-<tr><td>Keep the Faith Sunday</td><td>Various</td><td data-rk="ktf_sunday_60">$650</td><td data-rk="ktf_sunday_30">$450</td><td>—</td><td>—</td><td>80</td></tr>
-<tr><td>Keep the Faith Daily</td><td>Various</td><td data-rk="ktf_daily_60">$550</td><td data-rk="ktf_daily_30">$325</td><td>—</td><td>—</td><td>41</td></tr>
-<tr><td>Keep the Faith Plus</td><td>Various</td><td data-rk="ktf_plus_60">$1,000</td><td data-rk="ktf_plus_30">$750</td><td>—</td><td>—</td><td>100</td></tr>
+<tr><td>Keep the Faith Sunday</td><td>Various</td><td>$650</td><td>$450</td><td>—</td><td>—</td><td>80</td></tr>
+<tr><td>Keep the Faith Daily</td><td>Various</td><td>$550</td><td>$325</td><td>—</td><td>—</td><td>41</td></tr>
+<tr><td>Keep the Faith Plus</td><td>Various</td><td>$1,000</td><td>$750</td><td>—</td><td>—</td><td>100</td></tr>
 <tr class="section-header"><td colspan="7">Packages</td></tr>
-<tr><td>Power Talk¹</td><td>MF 6a–9p</td><td data-rk="power_talk_60">$3,000</td><td data-rk="power_talk_30">$2,000</td><td>—</td><td>—</td><td>321</td></tr>
+<tr><td>Power Talk¹</td><td>MF 6a–9p</td><td>$3,000</td><td>$2,000</td><td>—</td><td>—</td><td>321</td></tr>
 </tbody></table>
 <div class="note-box">¹ Power Talk includes Larry O'Connor, Mike Gallagher, Scott Jennings, Hugh Hewitt and Alex Marlow.</div>
 
-<div class="modal-overlay" id="editModal">
-  <div class="modal">
-    <div class="modal-header">
-      <h2>⚙ Edit Rate Card</h2>
-      <button class="modal-close" onclick="closeEditModal()">✕</button>
-    </div>
-    <div class="form-grid" id="editFormGrid"></div>
-    <div class="form-actions">
-      <button class="btn-cancel" onclick="closeEditModal()">Cancel</button>
-      <button class="btn-save" onclick="saveRates()">Save Changes</button>
-    </div>
-  </div>
-</div>
+
 <div class="save-toast" id="saveToast">✓ Rate card updated!</div>
 
-<script>
-var RATE_KEY="salem_srn_v3";
-var RATE_DEFAULTS={"stigall_60":"$350","stigall_30":"$263","oconnor_60":"$2,300","oconnor_30":"$1,800","gallagher_60":"$467","gallagher_30":"$351","kirk_60":"$1,000","kirk_30":"$475","marlow_60":"$440","marlow_30":"$330","jennings_60":"$585","jennings_30":"$439","hewitt_60":"$300","hewitt_30":"$225","elder_60":"$270","elder_30":"$202","platinum_60":"$400","platinum_30":"$275","gold_60":"$800","gold_30":"$500","optima_60":"$700","optima_30":"$450","focus_family":"$700","cal_thomas":"$150","one_moment":"$150","starnes_commentary":"$300","ktf_sunday_60":"$650","ktf_sunday_30":"$450","ktf_daily_60":"$550","ktf_daily_30":"$325","ktf_plus_60":"$1,000","ktf_plus_30":"$750","power_talk_60":"$3,000","power_talk_30":"$2,000"};
-var RATE_LABELS={"stigall_60":"Chris Stigall :60 NET","stigall_30":"Chris Stigall :30 NET","oconnor_60":"Larry O'Connor :60 NET","oconnor_30":"Larry O'Connor :30 NET","gallagher_60":"Mike Gallagher :60 NET","gallagher_30":"Mike Gallagher :30 NET","kirk_60":"Charlie Kirk :60 NET","kirk_30":"Charlie Kirk :30 NET","marlow_60":"Alex Marlow :60 NET","marlow_30":"Alex Marlow :30 NET","jennings_60":"Scott Jennings :60 NET","jennings_30":"Scott Jennings :30 NET","hewitt_60":"Hugh Hewitt :60 NET","hewitt_30":"Hugh Hewitt :30 NET","elder_60":"Larry Elder :60 NET","elder_30":"Larry Elder :30 NET","platinum_60":"Platinum News :60","platinum_30":"Platinum News :30","gold_60":"Gold News :60","gold_30":"Gold News :30","optima_60":"Optima News :60","optima_30":"Optima News :30","focus_family":"Focus on the Family","cal_thomas":"Cal Thomas Commentary","one_moment":"One Moment in America","starnes_commentary":"Todd Starnes Commentary","ktf_sunday_60":"KTF Sunday :60","ktf_sunday_30":"KTF Sunday :30","ktf_daily_60":"KTF Daily :60","ktf_daily_30":"KTF Daily :30","ktf_plus_60":"KTF Plus :60","ktf_plus_30":"KTF Plus :30","power_talk_60":"Power Talk :60","power_talk_30":"Power Talk :30"};
-</script>
+
 
 <script>
 // Auto-show edit button if admin session active
@@ -118,44 +104,7 @@ var RATE_LABELS={"stigall_60":"Chris Stigall :60 NET","stigall_30":"Chris Stigal
     if (backBtn) backBtn.href = 'index.html?auth=1&admin=1';
   }
 })();
-function openEditModal() {
-  var rates = loadRates();
-  var grid = document.getElementById('editFormGrid');
-  grid.innerHTML = '';
-  Object.keys(RATE_DEFAULTS).forEach(function(k) {
-    var div = document.createElement('div');
-    div.className = 'form-field';
-    div.innerHTML = '<label>' + (RATE_LABELS[k]||k) + '</label><input type="text" data-key="' + k + '" value="' + (rates[k]||'') + '">';
-    grid.appendChild(div);
-  });
-  document.getElementById('editModal').classList.add('open');
-}
-function closeEditModal() { document.getElementById('editModal').classList.remove('open'); }
-function saveRates() {
-  var rates = {};
-  document.querySelectorAll('#editFormGrid [data-key]').forEach(function(inp) {
-    rates[inp.getAttribute('data-key')] = inp.value.trim();
-  });
-  localStorage.setItem(RATE_KEY, JSON.stringify(rates));
-  applyRates(rates);
-  closeEditModal();
-  var t = document.getElementById('saveToast');
-  t.classList.add('show');
-  setTimeout(function(){ t.classList.remove('show'); }, 2500);
-}
-document.getElementById('editModal').addEventListener('click', function(e) {
-  if (e.target === this) closeEditModal();
-});
-function loadRates() {
-  try { var s = localStorage.getItem(RATE_KEY); return s ? JSON.parse(s) : RATE_DEFAULTS; } catch(e) { return RATE_DEFAULTS; }
-}
-function applyRates(rates) {
-  document.querySelectorAll('[data-rk]').forEach(function(el) {
-    var k = el.getAttribute('data-rk');
-    if (rates[k] !== undefined) el.textContent = rates[k];
-  });
-}
-applyRates(loadRates());
+
 </script>
 
 <script>
@@ -173,5 +122,80 @@ applyRates(loadRates());
   }
 })();
 </script>
+<script>
+var TABLE_STORAGE_KEY = "salem_srn_tables_v1";
+</script>
+
+<script>
+var EDIT_MODE = false;
+
+function openEditModal() {
+  if (EDIT_MODE) return;
+  EDIT_MODE = true;
+  document.querySelectorAll('.rate-table td').forEach(function(td) {
+    td.setAttribute('contenteditable', 'true');
+    td.classList.add('editing-cell');
+  });
+  document.getElementById('editBtn').textContent = '💾 Save Changes';
+  document.getElementById('editBtn').onclick = saveTableEdits;
+  showCancelBtn();
+}
+
+function saveTableEdits() {
+  document.querySelectorAll('.rate-table td').forEach(function(td) {
+    td.removeAttribute('contenteditable');
+    td.classList.remove('editing-cell');
+  });
+  // Save all tables' HTML to localStorage
+  var tables = document.querySelectorAll('.rate-table');
+  var saved = [];
+  tables.forEach(function(t) { saved.push(t.innerHTML); });
+  localStorage.setItem(TABLE_STORAGE_KEY, JSON.stringify(saved));
+  EDIT_MODE = false;
+  document.getElementById('editBtn').textContent = '⚙ Edit Rate Card';
+  document.getElementById('editBtn').onclick = openEditModal;
+  hideCancelBtn();
+  var t = document.getElementById('saveToast');
+  t.classList.add('show');
+  setTimeout(function(){ t.classList.remove('show'); }, 2500);
+}
+
+function cancelTableEdits() {
+  // Reload saved version (or default) without saving current edits
+  loadSavedTables();
+  document.querySelectorAll('.rate-table td').forEach(function(td) {
+    td.removeAttribute('contenteditable');
+    td.classList.remove('editing-cell');
+  });
+  EDIT_MODE = false;
+  document.getElementById('editBtn').textContent = '⚙ Edit Rate Card';
+  document.getElementById('editBtn').onclick = openEditModal;
+  hideCancelBtn();
+}
+
+function showCancelBtn() {
+  var btn = document.getElementById('cancelEditBtn');
+  if (btn) btn.style.display = 'inline-block';
+}
+function hideCancelBtn() {
+  var btn = document.getElementById('cancelEditBtn');
+  if (btn) btn.style.display = 'none';
+}
+
+function loadSavedTables() {
+  try {
+    var saved = localStorage.getItem(TABLE_STORAGE_KEY);
+    if (saved) {
+      var arr = JSON.parse(saved);
+      var tables = document.querySelectorAll('.rate-table');
+      tables.forEach(function(t, i) {
+        if (arr[i] !== undefined) t.innerHTML = arr[i];
+      });
+    }
+  } catch(e) {}
+}
+loadSavedTables();
+</script>
+
 </body>
 </html>
