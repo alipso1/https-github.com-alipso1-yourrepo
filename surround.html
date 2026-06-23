@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Salem Surround — Salem Rate Card</title>
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{--navy:#0D1B2A;--navy-mid:#152236;--navy-light:#1E3250;--gold:#C8A84B;--gold-light:#E2C470;--gold-dim:#9A7B30;--white:#F5F4F0;--muted:#8A9AB0;--border:rgba(200,168,75,0.18);}
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+  body{background:var(--navy);color:var(--white);font-family:'Inter',sans-serif;font-size:14px;min-height:100vh;}
+  header{background:#000;border-bottom:1px solid #1a1a1a;padding:0 40px;display:flex;align-items:center;justify-content:space-between;height:72px;position:sticky;top:0;z-index:100;}
+  .hdr-logo{height:44px;width:auto;}
+  .hdr-subtitle{font-size:11px;color:#8A9AB0;letter-spacing:1px;text-transform:uppercase;}
+  .controls{padding:14px 40px;display:flex;gap:10px;align-items:center;border-bottom:1px solid var(--border);background:var(--navy-mid);position:sticky;top:72px;z-index:90;}
+  .back-btn{display:inline-flex;align-items:center;gap:6px;color:var(--gold);text-decoration:none;font-size:13px;font-weight:600;}
+  .back-btn:hover{color:var(--gold-light);}
+  .admin-btn{margin-left:auto;background:linear-gradient(135deg,var(--gold),var(--gold-dim));border:none;color:#0D1B2A;padding:8px 16px;border-radius:8px;font-size:12px;font-weight:700;cursor:pointer;display:none;}
+  body.is-admin .admin-btn{display:inline-block!important;}
+  .admin-btn:hover{opacity:0.85;}
+  .page-title{font-family:'Oswald',sans-serif;text-transform:uppercase;letter-spacing:0.5px;font-size:26px;font-weight:800;color:var(--white);padding:20px 40px 16px;}
+  .rate-table{width:calc(100% - 80px);margin:0 40px 40px;border-collapse:collapse;}
+  .rate-table th{background:var(--navy-light);color:var(--gold);font-size:11px;text-transform:uppercase;letter-spacing:0.8px;padding:10px 14px;text-align:left;border-bottom:1px solid var(--border);}
+  .rate-table td{padding:9px 14px;border-bottom:1px solid rgba(255,255,255,0.06);font-size:13px;vertical-align:top;}
+  .rate-table tr:nth-child(even){background:rgba(255,255,255,0.02);}
+  .section-header td{background:var(--navy-light)!important;color:var(--gold);font-weight:700;text-transform:uppercase;font-size:12px;letter-spacing:0.5px;}
+  .note-box{background:rgba(200,168,75,0.08);border-left:3px solid var(--gold);margin:0 40px 24px;padding:12px 16px;font-size:12.5px;color:var(--muted);border-radius:4px;line-height:1.5;}
+  .modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.6);display:none;align-items:center;justify-content:center;z-index:200;}
+  .modal-overlay.open{display:flex;}
+  .modal{background:var(--navy-mid);border:1px solid var(--border);border-radius:12px;padding:24px;max-width:600px;width:90%;max-height:80vh;overflow-y:auto;}
+  .modal-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;}
+  .modal-close{background:none;border:none;color:var(--muted);font-size:20px;cursor:pointer;}
+  .form-grid{display:flex;flex-direction:column;gap:10px;}
+  .form-actions{margin-top:16px;display:flex;gap:10px;justify-content:flex-end;}
+  .btn-save{background:linear-gradient(135deg,var(--gold),var(--gold-dim));color:var(--navy);border:none;padding:9px 22px;border-radius:8px;font-size:13px;font-weight:700;cursor:pointer;}
+  .btn-cancel{background:none;border:1px solid var(--border);color:var(--muted);padding:9px 18px;border-radius:8px;font-size:13px;cursor:pointer;}
+  .save-toast{position:fixed;bottom:24px;right:24px;background:#4CAF7D;color:#fff;padding:10px 18px;border-radius:8px;font-size:13px;font-weight:600;z-index:300;opacity:0;transform:translateY(10px);transition:opacity 0.3s,transform 0.3s;pointer-events:none;}
+  .save-toast.show{opacity:1;transform:translateY(0);}
+  @media(max-width:768px){header{padding:0 16px;}.controls{padding:10px 16px;top:60px;}.rate-table{width:calc(100% - 32px);margin:0 16px 24px;}.page-title,.note-box{padding-left:16px;padding-right:16px;margin-left:16px;margin-right:16px;}.form-grid{grid-column:1fr;}}
+  .editing-cell{background:rgba(200,168,75,0.12)!important;outline:1px dashed var(--gold);cursor:text;}
+</style>
+</head>
+<body>
+<header>
+  <a href="index.html?auth=1"><img class="hdr-logo" src="data:image/png;base64,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" alt="Salem Media"></a>
+  <div class="hdr-subtitle">Interactive Rate Card</div>
+</header>
+<div class="controls">
+  <a class="back-btn" href="index.html?auth=1">← Back to All Networks</a>
+  <button class="admin-btn" id="editBtn" onclick="openEditModal()">⚙ Edit Rate Card</button>
+  <button class="admin-btn" id="cancelEditBtn" onclick="cancelTableEdits()" style="display:none;background:transparent;border:1px solid var(--border);color:var(--muted);margin-left:8px;">Cancel</button>
+</div>
+<div class="page-title">Salem Surround</div>
+
+<div class="note-box">Last updated 09/18/2025. All rates are floor rates — actuals may vary based on negotiation, term length, and bundling.</div>
+
+<table class="rate-table"><thead><tr><th>Product</th><th>Term / Notes</th><th>Floor Rate</th></tr></thead><tbody>
+<tr class="section-header"><td colspan="3">Surround Display — 3-month minimum</td></tr>
+<tr><td>Native</td><td>Grouped tactic — must be sold with another tactic. $500/mo minimum</td><td>$10 CPM</td></tr>
+<tr><td>Geofencing</td><td>Grouped tactic — must be sold with another tactic. $500/mo minimum</td><td>$10 CPM</td></tr>
+<tr><td>Contextual/Behavioral</td><td>Grouped tactic — must be sold with another tactic. $500/mo minimum</td><td>$10 CPM</td></tr>
+<tr><td>Programmatic Retargeting</td><td>Grouped tactic — must be sold with another tactic. $500/mo minimum</td><td>$10 CPM</td></tr>
+<tr><td>Digital Out-of-Home</td><td>Stand alone — $1,000/mo per tactic minimum</td><td>$36 CPM</td></tr>
+<tr><td>Addressable Geofencing</td><td>Stand alone — $1,000/mo per tactic minimum</td><td>$14 CPM</td></tr>
+<tr><td>Pre-Roll</td><td>Stand alone — $1,000/mo per tactic minimum</td><td>$25 CPM</td></tr>
+<tr><td>Connected TV</td><td>Stand alone — $1,000/mo per tactic minimum</td><td>$40 CPM</td></tr>
+<tr><td>Surround Audio</td><td>Stand alone — $1,000/mo per tactic minimum</td><td>$40 CPM</td></tr>
+
+<tr class="section-header"><td colspan="3">Surround Display Social — 6-month minimum</td></tr>
+<tr><td>Social Advertising with Retargeting (Images/Video, FB/IG)</td><td>$250 setup fee — includes image and ad text creation with up to 3 revisions</td><td>$1,000/mo minimum</td></tr>
+<tr><td>Conversion Optimized Social Advertising (Images/Video, FB/IG)</td><td>Submit a budget request for a quote or the Needs Assessment Form for a proposal</td><td>Starting at $2,500</td></tr>
+<tr><td>Social Call &amp; Form Tracking Add-on</td><td>Conversion campaigns only</td><td>$50/mo</td></tr>
+
+<tr class="section-header"><td colspan="3">Surround Display Social (YouTube)</td></tr>
+<tr><td>YouTube Retargeting</td><td>Must be sold with YouTube TrueView. 4-month minimum</td><td>—</td></tr>
+<tr><td>YouTube TrueView</td><td>—</td><td>$1,000/mo minimum</td></tr>
+
+<tr class="section-header"><td colspan="3">Salem Display Network Programs</td></tr>
+<tr><td>Run of Salem (Faith/Politics)</td><td>All applicable assets, devices and platforms within Salem Media Group</td><td>$14 CPM</td></tr>
+<tr><td>Salem Retargeting</td><td>Retarget people who visited Salem Radio websites</td><td>$12 CPM</td></tr>
+
+<tr class="section-header"><td colspan="3">Surround SEO — 6-month minimum</td></tr>
+<tr><td>Surround SEO</td><td colspan="2">Submit a budget request for a quote or the Needs Assessment Form for a proposal</td></tr>
+
+<tr class="section-header"><td colspan="3">Surround Search (PPC) — 6-month minimum</td></tr>
+<tr><td>Surround Search (PPC)</td><td>Submit a budget request for a quote or the Needs Assessment Form for a proposal</td><td>Starting at $1,000</td></tr>
+</tbody></table>
+
+<div class="page-title" style="font-size:20px;padding-top:8px;">Surround Website Design</div>
+<table class="rate-table"><thead><tr><th>Package</th><th>Package Cost</th><th># of Included Revisions</th><th>Cost per Additional Revision</th></tr></thead><tbody>
+<tr><td>Landing Page Creation</td><td>$99</td><td>2</td><td>$25</td></tr>
+<tr><td>Landing Page Hosting</td><td>$25/month</td><td>—</td><td>—</td></tr>
+<tr><td>Silver Package (up to 5 page site)</td><td>$1,500</td><td>—</td><td>—</td></tr>
+<tr><td>Silver — Hosting &amp; Maintenance*</td><td>$60/month</td><td>—</td><td>—</td></tr>
+<tr><td>Gold Package (up to 10 page site)</td><td>$2,500</td><td>—</td><td>—</td></tr>
+<tr><td>Gold — Hosting &amp; Maintenance*</td><td>$75/month</td><td>—</td><td>—</td></tr>
+<tr><td>Up to 15 page site</td><td>$3,500</td><td>—</td><td>—</td></tr>
+<tr><td>15-page — Hosting &amp; Maintenance*</td><td>$100/month</td><td>—</td><td>—</td></tr>
+<tr><td>Platinum Package (16 pages or more)</td><td>Custom — request quote*</td><td>—</td><td>—</td></tr>
+</tbody></table>
+<div class="note-box">Additional add-ons are available — contact AD Ops for more info. *Migration fees start at $800 and require pre-approval. *All website packages require an annual hosting &amp; maintenance agreement. *There is a fee for transfer of files if the client cancels.</div>
+
+<table class="rate-table"><thead><tr><th>Hosting &amp; Maintenance Fee Structure</th><th>Monthly Fee</th></tr></thead><tbody>
+<tr><td>5–10 pages</td><td>$90</td></tr>
+<tr><td>11–15 pages themed, or 10 pages or less custom</td><td>$110</td></tr>
+<tr><td>16–20 pages themed</td><td>$130</td></tr>
+<tr><td>21–30 pages</td><td>$150</td></tr>
+<tr><td>31–40 pages</td><td>$170</td></tr>
+<tr><td>41+ pages (scope needed)</td><td>$200</td></tr>
+</tbody></table>
+
+<div class="page-title" style="font-size:20px;padding-top:8px;">Surround Display Creative</div>
+<table class="rate-table"><thead><tr><th>Custom Ad Packages (incl. 2 rounds of revisions)</th><th>Floor Rate</th><th>Revision Rate</th></tr></thead><tbody>
+<tr><td>Standard HTML Display Ads — No Copy</td><td>$150</td><td>$50</td></tr>
+<tr><td>Standard HTML Display Ads — With Copy</td><td>$225</td><td>$50</td></tr>
+<tr><td>Native Ad Creative</td><td>$40</td><td>$15</td></tr>
+<tr><td>Native Ad Creative with Images</td><td>$65</td><td>$20</td></tr>
+<tr><td>Native Ad Creative with Copy but no Images</td><td>$65</td><td>$15</td></tr>
+<tr><td>Native Ad Creative with Copy &amp; Images</td><td>$100</td><td>$20</td></tr>
+<tr><td>Facebook Ad Creative</td><td>$40</td><td>$10</td></tr>
+<tr><td>Facebook Ad Creative with Copy</td><td>$65</td><td>$10</td></tr>
+</tbody></table>
+
+<table class="rate-table"><thead><tr><th>Templated Ad Packages (incl. 2 rounds of revisions)</th><th>Floor Rate</th><th>Revision Rate</th></tr></thead><tbody>
+<tr><td>Standard HTML Display Ads — No Copy</td><td>$125</td><td>$20</td></tr>
+<tr><td>Standard HTML Display Ads — With Copy</td><td>$175</td><td>$20</td></tr>
+<tr><td>Native Ad Creative</td><td>$40</td><td>$10</td></tr>
+<tr><td>Native Ad Creative with Images</td><td>$75</td><td>$10</td></tr>
+<tr><td>Native Ad Creative with Copy but no Images</td><td>$75</td><td>$10</td></tr>
+<tr><td>Native Ad Creative with Copy &amp; Images</td><td>$85</td><td>$10</td></tr>
+<tr><td>Facebook Ad Creative</td><td>$35</td><td>$10</td></tr>
+<tr><td>Facebook Ad Creative with Copy</td><td>$50</td><td>$10</td></tr>
+</tbody></table>
+
+<table class="rate-table"><thead><tr><th>Service Fee for Digital Out-of-Home Creative (first build incl. 2 revisions)</th><th>Rate</th></tr></thead><tbody>
+<tr><td>First Build with 2 Revisions</td><td>$35</td></tr>
+<tr><td>First Build Additional Revision (3+)</td><td>$8</td></tr>
+<tr><td>Rushed First Build with 2 Revisions</td><td>$50</td></tr>
+<tr><td>Rushed Additional Revision (3+)</td><td>$11</td></tr>
+</tbody></table>
+
+<div class="page-title" style="font-size:20px;padding-top:8px;">QR Codes</div>
+<table class="rate-table"><thead><tr><th>Product</th><th>Rate</th></tr></thead><tbody>
+<tr><td>Dynamic QR Code</td><td>$45</td></tr>
+<tr><td>Additional Revision</td><td>$10</td></tr>
+<tr><td>Dynamic QR Code and Mobile Landing Page</td><td>$65</td></tr>
+<tr><td>Additional Revision</td><td>$15</td></tr>
+</tbody></table>
+
+<div class="page-title" style="font-size:20px;padding-top:8px;">Logo Creation</div>
+<table class="rate-table"><thead><tr><th>Product Type</th><th>Description</th><th>First Build</th><th>Revision</th><th>Rush First Build</th><th>Rush Revision</th><th>Turnaround (Std / Rush)</th></tr></thead><tbody>
+<tr><td>Logo Vectorization</td><td>Converting raster image to vector art for print production</td><td>$30</td><td>$8</td><td>$25</td><td>$12</td><td>24 hrs / 8 hrs (rev: 2 hrs / 8 hrs)</td></tr>
+<tr><td>Logo Vectorization</td><td>—</td><td>$36</td><td>$9</td><td>$30</td><td>$14</td><td>12 hrs / 4 hrs (rev: 8 hrs / 4 hrs)</td></tr>
+<tr><td>Logo Creation</td><td>Creation of logo design based upon a concept</td><td>$100</td><td>$32</td><td>$100</td><td>$50</td><td>48 hrs / 12 hrs (rev: 24 hrs / 12 hrs)</td></tr>
+<tr><td>Logo Creation</td><td>—</td><td>$120</td><td>$40</td><td>$120</td><td>$60</td><td>24 hrs / 8 hrs (rev: 12 hrs / 8 hrs)</td></tr>
+</tbody></table>
+
+<div class="page-title" style="font-size:20px;padding-top:8px;">Copywriting Services</div>
+<table class="rate-table"><thead><tr><th>Word Count</th><th>Floor Rate</th><th>Revision Rate</th></tr></thead><tbody>
+<tr><td>Less than 500 words</td><td>$125 (incl. 2 revisions)</td><td>$25</td></tr>
+<tr><td>501–1000 words</td><td>$200 (incl. 2 revisions)</td><td>$50</td></tr>
+<tr><td>1001–1500 words</td><td>$275 (incl. 2 revisions)</td><td>$65</td></tr>
+<tr><td>1501–2000 words</td><td>$350 (incl. 2 revisions)</td><td>$80</td></tr>
+<tr><td>2001–2500 words</td><td>$425 (incl. 2 revisions)</td><td>$90</td></tr>
+</tbody></table>
+
+<div class="page-title" style="font-size:20px;padding-top:8px;">Audio Production Services</div>
+<table class="rate-table"><thead><tr><th>Product</th><th>Rate</th></tr></thead><tbody>
+<tr><td>15-Second Voiceover Audio Production</td><td>$145</td></tr>
+<tr><td>30-Second Voiceover Audio Production</td><td>$200</td></tr>
+<tr><td>Companion Banner for Audio Creative</td><td>$30</td></tr>
+<tr><td>Background Music for Audio Creative</td><td>$75</td></tr>
+</tbody></table>
+<div class="note-box"><strong>Audio Creative Requirements:</strong> MP3 or OGG file format, 30 seconds maximum, suggested minimum bit rate 160 kbps.<br><strong>Video Creative Requirements:</strong> MP4 video (codecs: MPEG2, WMV, H.264/AAC), 30 seconds maximum, resolution 640x480 preferred / 400x300 minimum. Audio: compressed MPG3, 44.1kHz encoding, 128 kbps minimum constant bit rate.</div>
+
+<div class="page-title" style="font-size:20px;padding-top:8px;">Video Packages</div>
+<table class="rate-table"><thead><tr><th>Product</th><th>Length</th><th>Floor Price (incl. 2 revisions unless noted)</th><th>Additional Revisions</th><th>New Build SLA</th><th>Revision SLA</th></tr></thead><tbody>
+<tr><td>Standard Video Package</td><td>15 seconds</td><td>$80</td><td>$30</td><td>3 business days</td><td>2 business days</td></tr>
+<tr><td>Standard Video Package</td><td>30 seconds</td><td>$125</td><td>$40</td><td>3 business days</td><td>2 business days</td></tr>
+<tr><td>Advanced Video Package</td><td>15 seconds</td><td>$125</td><td>$40</td><td>3 business days</td><td>2 business days</td></tr>
+<tr><td>Advanced Video Package</td><td>30 seconds</td><td>$175</td><td>$60</td><td>3 business days</td><td>2 business days</td></tr>
+<tr><td>Premium Video Package</td><td>15 seconds</td><td>$300</td><td>$100</td><td>4 business days</td><td>3 business days</td></tr>
+<tr><td>Premium Video Package</td><td>30 seconds</td><td>$400</td><td>$125</td><td>4 business days</td><td>3 business days</td></tr>
+<tr><td>Premium Video Package</td><td>60 seconds</td><td>$500</td><td>$200</td><td>4 business days</td><td>3 business days</td></tr>
+<tr><td>Premium Video Package</td><td>15 &amp; 30 seconds</td><td>$575</td><td>$200</td><td>5 business days</td><td>3 business days</td></tr>
+<tr><td>Premium Video Package</td><td>15, 30 &amp; 60 seconds</td><td>$875</td><td>$300</td><td>5 business days</td><td>3 business days</td></tr>
+<tr><td>Exclusive Video Package</td><td>15 seconds</td><td>$475</td><td>$165</td><td>8 business days (1 day script, 1 day storyboard, 6 days video)</td><td>6 business days (1 day script, 1 day storyboard, 4 days edits)</td></tr>
+<tr><td>Exclusive Video Package</td><td>30 seconds</td><td>$650</td><td>$225</td><td>8 business days</td><td>6 business days</td></tr>
+<tr><td>Exclusive Video Package</td><td>60 seconds</td><td>$850</td><td>$300</td><td>8 business days</td><td>6 business days</td></tr>
+<tr><td>Exclusive Video Package</td><td>15 &amp; 30 seconds</td><td>$925</td><td>$325</td><td>8 business days</td><td>6 business days</td></tr>
+<tr><td>Exclusive Video Package</td><td>15, 30 &amp; 60 seconds</td><td>$1,400</td><td>$500</td><td>8 business days</td><td>6 business days</td></tr>
+</tbody></table>
+
+<table class="rate-table"><thead><tr><th>Video Package Add-Ons</th><th>Rate</th><th>Revision</th><th>New Build SLA</th><th>Revision SLA</th></tr></thead><tbody>
+<tr><td>Music</td><td>$30</td><td>n/a</td><td>2 business days</td><td>2 business days</td></tr>
+<tr><td>Stock Video Clip</td><td>$35</td><td>n/a</td><td>2 business days</td><td>2 business days</td></tr>
+<tr><td>Stock Image</td><td>$5</td><td>n/a</td><td>2 business days</td><td>2 business days</td></tr>
+<tr><td>Stock Images 10-pack</td><td>$50</td><td>n/a</td><td>2 business days</td><td>2 business days</td></tr>
+<tr><td>Stock Images 20-pack</td><td>$100</td><td>n/a</td><td>2 business days</td><td>2 business days</td></tr>
+<tr><td>Professional Voice Over (15 sec, 1 revision incl.)</td><td>$135</td><td>$135</td><td>2 business days</td><td>2 business days</td></tr>
+<tr><td>Professional Voice Over (30 sec, 1 revision incl.)</td><td>$175</td><td>$175</td><td>2 business days</td><td>2 business days</td></tr>
+<tr><td>Professional Voice Over (60 sec, 1 revision incl.)</td><td>$225</td><td>$225</td><td>2 business days</td><td>2 business days</td></tr>
+<tr><td>Adding Music to Voice Over (1 revision incl.)</td><td>$75</td><td>$75</td><td>2 business days</td><td>2 business days</td></tr>
+<tr><td>Video Script (15 seconds, 1 revision incl.)</td><td>$80</td><td>$15</td><td>2 business days</td><td>2 business days</td></tr>
+<tr><td>Video Script (30 seconds, 1 revision incl.)</td><td>$95</td><td>$25</td><td>2 business days</td><td>2 business days</td></tr>
+<tr><td>Video Script (60 seconds, 1 revision incl.)</td><td>$125</td><td>$35</td><td>2 business days</td><td>2 business days</td></tr>
+<tr><td>Video Script (90 seconds, 1 revision incl.)</td><td>$160</td><td>$50</td><td>2 business days</td><td>2 business days</td></tr>
+<tr><td>Video Script (120 seconds, 1 revision incl.)</td><td>$185</td><td>$60</td><td>2 business days</td><td>2 business days</td></tr>
+<tr><td>Storyboard (15 second, 1 revision incl.)</td><td>$200</td><td>$50</td><td>2 business days</td><td>2 business days</td></tr>
+<tr><td>Storyboard (30 second, 1 revision incl.)</td><td>$325</td><td>$75</td><td>2 business days</td><td>2 business days</td></tr>
+<tr><td>Storyboard (60 second, 1 revision incl.)</td><td>$475</td><td>$100</td><td>2 business days</td><td>2 business days</td></tr>
+</tbody></table>
+
+<div class="page-title" style="font-size:20px;padding-top:8px;">Surround Chat</div>
+<table class="rate-table"><thead><tr><th>Product</th><th>Rate</th></tr></thead><tbody>
+<tr><td>Set Up Fee</td><td>$250 (one language) / $350 (two languages — English &amp; Spanish)</td></tr>
+<tr><td>50 Leads</td><td>$1,000</td></tr>
+<tr><td>100 Leads</td><td>$1,600</td></tr>
+<tr><td>Exit PopUp (mouse-tracking exit detection)</td><td>$100 one-time fee</td></tr>
+</tbody></table>
+
+<div class="page-title" style="font-size:20px;padding-top:8px;">Surround ID</div>
+<table class="rate-table"><thead><tr><th>Term</th><th>Rate</th></tr></thead><tbody>
+<tr><td>Set Up Fee</td><td>$150</td></tr>
+<tr><td>6 Months</td><td>$750 (2,000 record downloads monthly)</td></tr>
+<tr><td>12 Months</td><td>$499 (2,000 record downloads monthly)</td></tr>
+</tbody></table>
+<div class="note-box">Clients can purchase additional matches for $0.12 per downloaded record. The monthly download of 2,000 cannot be aggregated across the length of the campaign.</div>
+
+<div class="page-title" style="font-size:20px;padding-top:8px;">Surround Email</div>
+<table class="rate-table"><thead><tr><th># of Email Records Deployed</th><th>CPM</th></tr></thead><tbody>
+<tr><td>25,000–99,999</td><td>$45 CPM</td></tr>
+<tr><td>100,000–250,000</td><td>$40 CPM</td></tr>
+<tr><td>250,001–400,000</td><td>$30 CPM</td></tr>
+<tr><td>400,001–500,000</td><td>$25 CPM</td></tr>
+<tr><td>500,001–5,000,000</td><td>$20 CPM</td></tr>
+<tr><td>Personalized URLs</td><td>$1,500 per deployment setup and postal file fee</td></tr>
+</tbody></table>
+<div class="note-box">25,000 records minimum per email deployment. Records under 50,000 require a minimum of (3) deployments over 90 days.</div>
+
+<table class="rate-table"><thead><tr><th>Surround Email Bolt-On Options</th><th>Description</th><th>Added Cost</th></tr></thead><tbody>
+<tr><td>Redrop Email to All</td><td>Increase frequency by redeploying your Targeted Email within 4 weeks of initial deployment. Same audience only. Applies only to deployments of 50K or more.</td><td>50% off base CPM</td></tr>
+<tr><td>Redrop Email to Viewers</td><td>Redeploy to people who opened your previous email, within 4 weeks of initial deployment</td><td>Starting at $500</td></tr>
+<tr><td>Redrop to Clickers</td><td>Send only to people who clicked your previous message</td><td>Starting at $500</td></tr>
+<tr><td>Redrop to Non-Viewers</td><td>Send only to people who did not view/open your previous message</td><td>Starting at $500</td></tr>
+<tr><td>Redrop to Non-Clickers</td><td>Send only to people who did not click on your previous message</td><td>Starting at $500</td></tr>
+<tr><td>Hashed (Encrypted) Emails</td><td>Receive a hashed list (MD5, SHA256, or SHA512) of campaign recipients for retargeting via social/DSPs</td><td>$15 CPM</td></tr>
+<tr><td>Surround Email Retargeting with Display Ads</td><td>Retarget people who opened your Surround email with display ads while surfing the internet. $700: $14 CPM/50K imps. $1,200: $13 CPM/92K imps. $2,000: $12 CPM/166K imps.</td><td>Starting at $700</td></tr>
+<tr><td>Surround Email Retargeting with Facebook Ads</td><td>Retarget people with a Facebook account linked to their email, regardless of open. $1,000: $20 CPM/50K imps. $2,000+: $15 CPM/133,333 imps.</td><td>Starting at $1,000</td></tr>
+<tr><td>Matchback Postal File</td><td>Name, address, city, state, zip code for each email tied to your recent Surround email deployment</td><td>$250</td></tr>
+<tr><td>Email File Suppression</td><td>Suppress your email database from our Surround Email database for unduplicated reach</td><td>Included</td></tr>
+<tr><td>Targeted Email — Mobile Ad ID</td><td>Targeted Mobile Phone Unique Identifiers</td><td>Additional $16 CPM or $500 (whichever is larger)</td></tr>
+<tr><td>Note: Redrops</td><td>All redrops can be set up with a +Fill option — redrop to your desired audience, then fill with an additional audience of choice until reaching your desired quantity</td><td>—</td></tr>
+</tbody></table>
+
+<div class="page-title" style="font-size:20px;padding-top:8px;">Surround Email Creation</div>
+<table class="rate-table"><thead><tr><th>Product</th><th>Description</th><th>Added Cost</th><th># Included Revisions</th><th>Cost per Additional Revision</th></tr></thead><tbody>
+<tr><td>Email Design</td><td>Customer supplies copy, logos, graphics — 24-hour turnaround</td><td>$200 design only / $325 incl. copywriting up to 500 words</td><td>2</td><td>$50</td></tr>
+<tr><td>Retargeting Display Ad Creation</td><td>Six ad sizes: 300x250, 728x90, 160x600, 300x600, 320x50, 300x50</td><td>$200</td><td>2</td><td>$50</td></tr>
+</tbody></table>
+
+<div class="page-title" style="font-size:20px;padding-top:8px;">Digital Presence</div>
+<table class="rate-table"><thead><tr><th>Product</th><th>Minimum Term</th><th>Set-Up Fee</th><th>Monthly Floor</th></tr></thead><tbody>
+<tr><td>Surround Reputation</td><td>12 months</td><td>$199</td><td>$399</td></tr>
+<tr><td>Surround Social x3 (with calendar)</td><td>6 months</td><td>$199</td><td>$425</td></tr>
+<tr><td>Surround Social x5 (with calendar)</td><td>6 months</td><td>$199</td><td>$750</td></tr>
+<tr><td>Surround Presence Package x3 weekly posts</td><td>12 months</td><td>$199</td><td>$799</td></tr>
+<tr><td>Surround Presence Package x5 weekly posts</td><td>12 months</td><td>$199</td><td>$999</td></tr>
+<tr><td>Pinterest*</td><td>6 months</td><td>n/a</td><td>$250</td></tr>
+<tr><td>Houzz*</td><td>6 months</td><td>n/a</td><td>$250</td></tr>
+<tr><td>Google Business Profile (GBP) Optimization**</td><td>6 months</td><td>$80</td><td>—</td></tr>
+</tbody></table>
+<div class="note-box">*Pinterest/Houzz can only be added to accounts running Surround Social. **GBP Optimization can only be added to accounts running Surround Reputation or our Surround Presence Packages.</div>
+
+
+<div class="save-toast" id="saveToast">✓ Rate card updated!</div>
+
+<script>
+// Show edit button if ?admin=1 in URL
+(function() {
+  var params = new URLSearchParams(window.location.search);
+  if (params.get('admin') === '1') {
+    document.body.classList.add('is-admin');
+    var backBtn = document.querySelector('.back-btn');
+    if (backBtn) backBtn.href = 'index.html?auth=1&admin=1';
+  }
+})();
+</script>
+
+<script>
+// Fallback admin check
+(function() {
+  if (window.location.search.indexOf('admin=1') !== -1) {
+    var btn = document.getElementById('editBtn');
+    if (btn) {
+      btn.removeAttribute('style');
+      btn.style.display = 'inline-block';
+      btn.style.visibility = 'visible';
+      btn.style.opacity = '1';
+    }
+    document.body.className += ' is-admin';
+  }
+})();
+</script>
+<script>
+var TABLE_STORAGE_KEY = "salem_surround_tables_v1";
+</script>
+
+<script>
+var EDIT_MODE = false;
+
+function openEditModal() {
+  if (EDIT_MODE) return;
+  EDIT_MODE = true;
+  document.querySelectorAll('.rate-table td').forEach(function(td) {
+    td.setAttribute('contenteditable', 'true');
+    td.classList.add('editing-cell');
+  });
+  document.getElementById('editBtn').textContent = '💾 Save Changes';
+  document.getElementById('editBtn').onclick = saveTableEdits;
+  showCancelBtn();
+}
+
+function saveTableEdits() {
+  document.querySelectorAll('.rate-table td').forEach(function(td) {
+    td.removeAttribute('contenteditable');
+    td.classList.remove('editing-cell');
+  });
+  var tables = document.querySelectorAll('.rate-table');
+  var saved = [];
+  tables.forEach(function(t) { saved.push(t.innerHTML); });
+  localStorage.setItem(TABLE_STORAGE_KEY, JSON.stringify(saved));
+  EDIT_MODE = false;
+  document.getElementById('editBtn').textContent = '⚙ Edit Rate Card';
+  document.getElementById('editBtn').onclick = openEditModal;
+  hideCancelBtn();
+  var t = document.getElementById('saveToast');
+  t.classList.add('show');
+  setTimeout(function(){ t.classList.remove('show'); }, 2500);
+}
+
+function cancelTableEdits() {
+  loadSavedTables();
+  document.querySelectorAll('.rate-table td').forEach(function(td) {
+    td.removeAttribute('contenteditable');
+    td.classList.remove('editing-cell');
+  });
+  EDIT_MODE = false;
+  document.getElementById('editBtn').textContent = '⚙ Edit Rate Card';
+  document.getElementById('editBtn').onclick = openEditModal;
+  hideCancelBtn();
+}
+
+function showCancelBtn() {
+  var btn = document.getElementById('cancelEditBtn');
+  if (btn) btn.style.display = 'inline-block';
+}
+function hideCancelBtn() {
+  var btn = document.getElementById('cancelEditBtn');
+  if (btn) btn.style.display = 'none';
+}
+
+function loadSavedTables() {
+  try {
+    var saved = localStorage.getItem(TABLE_STORAGE_KEY);
+    if (saved) {
+      var arr = JSON.parse(saved);
+      var tables = document.querySelectorAll('.rate-table');
+      tables.forEach(function(t, i) {
+        if (arr[i] !== undefined) t.innerHTML = arr[i];
+      });
+    }
+  } catch(e) {}
+}
+loadSavedTables();
+</script>
+
+</body>
+</html>
