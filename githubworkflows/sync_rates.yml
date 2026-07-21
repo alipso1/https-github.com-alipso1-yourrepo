@@ -1,0 +1,43 @@
+name: Sync Rate Cards from Google Sheets
+
+on:
+  # Run automatically every night at 2:00 AM EST (7:00 AM UTC)
+  schedule:
+    - cron: '0 7 * * *'
+
+  # Also allow manual trigger from GitHub Actions tab
+  workflow_dispatch:
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+
+    steps:
+      # 1. Check out the repo
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # 2. Set up Python
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      # 3. Run the sync script
+      - name: Sync rate cards from Google Sheets
+        run: python sync_rates.py
+
+      # 4. Commit and push any changes
+      - name: Commit updated pages
+        run: |
+          git config user.name "Salem Rate Card Bot"
+          git config user.email "ratecard-bot@salemcommunications.com"
+          git add *.html
+          # Only commit if there are actual changes
+          if git diff --staged --quiet; then
+            echo "No changes detected — skipping commit"
+          else
+            git commit -m "Auto-sync: update rate cards from Google Sheets $(date +'%Y-%m-%d')"
+            git push
+            echo "✓ Changes pushed to GitHub"
+          fi
