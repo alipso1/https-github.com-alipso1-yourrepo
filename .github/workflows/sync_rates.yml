@@ -18,12 +18,11 @@ jobs:
         with:
           python-version: '3.11'
 
+      - name: List files
+        run: ls -la
+
       - name: Sync rate cards from Google Sheets
-        run: |
-          echo "Current directory: $(pwd)"
-          echo "Files: $(ls)"
-          python "$GITHUB_WORKSPACE/sync_rates.py"
-        working-directory: ${{ github.workspace }}
+        run: python3 sync_rates.py
 
       - name: Commit updated pages
         run: |
