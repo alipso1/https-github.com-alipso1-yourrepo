@@ -79,13 +79,15 @@ def build_local_table(rows):
     html = ['<table class="rate-table"><thead><tr><th>Tactic</th><th>Gross Rates</th><th>Hot Deals, Special Offers &amp; Promotions</th><th>Conferences, Concerts &amp; Special Events</th><th>Non-Profit &amp; Charitable Opportunities</th></tr></thead><tbody>']
     # Known clickable links
     LINKS = {
-        "Dedicated Email Rates (per station)": "https://docs.google.com/spreadsheets/d/15E4aYnMG__Cpk7kpT9cE3bEwmE-uSp6-xnWu38Rlffs/edit#gid=1000178295",
-        "Homepage Takeover (per station)": "https://docs.google.com/spreadsheets/d/15E4aYnMG__Cpk7kpT9cE3bEwmE-uSp6-xnWu38Rlffs/edit#gid=920169529",
-        "Loyalty Program Promotion (per station)": "https://docs.google.com/spreadsheets/d/15E4aYnMG__Cpk7kpT9cE3bEwmE-uSp6-xnWu38Rlffs/edit#gid=920169529",
-        "Mobile App Splash Page Sponsorship": "https://docs.google.com/spreadsheets/d/15E4aYnMG__Cpk7kpT9cE3bEwmE-uSp6-xnWu38Rlffs/edit#gid=1618078422",
-        "Sticky Footer (per station)": "https://docs.google.com/spreadsheets/d/15E4aYnMG__Cpk7kpT9cE3bEwmE-uSp6-xnWu38Rlffs/edit#gid=1618078422",
-        "Streaming Sponsorship": "https://docs.google.com/spreadsheets/d/15E4aYnMG__Cpk7kpT9cE3bEwmE-uSp6-xnWu38Rlffs/edit#gid=1618078422",
-        "Local Station Metrics": "https://docs.google.com/spreadsheets/d/15E4aYnMG__Cpk7kpT9cE3bEwmE-uSp6-xnWu38Rlffs/edit#gid=1618078422",
+        "dedicated email rates (per station)": "https://docs.google.com/spreadsheets/d/15E4aYnMG__Cpk7kpT9cE3bEwmE-uSp6-xnWu38Rlffs/edit#gid=1000178295",
+        "homepage takeover (per station)": "https://docs.google.com/spreadsheets/d/15E4aYnMG__Cpk7kpT9cE3bEwmE-uSp6-xnWu38Rlffs/edit#gid=920169529",
+        "loyalty program promotion (per station)": "https://docs.google.com/spreadsheets/d/15E4aYnMG__Cpk7kpT9cE3bEwmE-uSp6-xnWu38Rlffs/edit#gid=920169529",
+        "mobile app splash page sponsorship": "https://docs.google.com/spreadsheets/d/15E4aYnMG__Cpk7kpT9cE3bEwmE-uSp6-xnWu38Rlffs/edit#gid=1618078422",
+        "mobile app splash page": "https://docs.google.com/spreadsheets/d/15E4aYnMG__Cpk7kpT9cE3bEwmE-uSp6-xnWu38Rlffs/edit#gid=1618078422",
+        "sticky footer (per station)": "https://docs.google.com/spreadsheets/d/15E4aYnMG__Cpk7kpT9cE3bEwmE-uSp6-xnWu38Rlffs/edit#gid=1618078422",
+        "streaming sponsorship": "https://docs.google.com/spreadsheets/d/15E4aYnMG__Cpk7kpT9cE3bEwmE-uSp6-xnWu38Rlffs/edit#gid=1618078422",
+        "streaming": "https://docs.google.com/spreadsheets/d/15E4aYnMG__Cpk7kpT9cE3bEwmE-uSp6-xnWu38Rlffs/edit#gid=1618078422",
+        "local station metrics": "https://docs.google.com/spreadsheets/d/15E4aYnMG__Cpk7kpT9cE3bEwmE-uSp6-xnWu38Rlffs/edit#gid=1618078422",
     }
     for row in rows[1:]:
         if not any(row):
@@ -93,8 +95,8 @@ def build_local_table(rows):
         label = val(row, 0)
         if label.lower() in ("tactic", "property", ""):
             continue
-        if label in LINKS:
-            link = LINKS[label]
+        if label.lower() in LINKS:
+            link = LINKS[label.lower()]
             html.append(f'<tr><td>{html_escape(label)}</td><td colspan="4"><a href="{link}" target="_blank" style="color:var(--gold);">Click Here</a></td></tr>')
         elif val(row,1) == "—" and val(row,2) == "—":
             html.append(f'<tr class="section-header"><td colspan="5">{html_escape(label)}</td></tr>')
