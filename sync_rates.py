@@ -276,6 +276,29 @@ def build_spn_rates(rows):
         if not show_name or show_name.lower() in ("podcast", "show", ""):
             continue
 
+        # Skip non-show rows
+        skip_keywords = ["DAI", "Dynamic Ad Insertion", "Title Sponsorship", 
+                         "Bulk Rate", "EKKL Network", "Live Read", "YouTube",
+                         "Clips", "CPM", "Rate per"]
+        if any(kw.lower() in show_name.lower() for kw in skip_keywords):
+            continue
+
+        # Map Google Sheet names to site names
+        NAME_MAP = {
+            "Charlie Kirk (Podcast)": "Charlie Kirk",
+            "Erin Molan Clips": "Erin Molan Show",
+            "Erin Molan": "Erin Molan Show",
+            "Larry O'Connor": "Larry O\'Connor (Townhall Media)",
+            "Joe Pags": "Joe Pags - Unshaken & Unafraid",
+            "Lara Trump": "The Right View - Lara Trump",
+            "The Right View": "The Right View - Lara Trump",
+            "Timeless Wisdom": "Timeless Wisdom with Dennis Prager",
+            "WHOA": "WHOA That\'s A Good Podcast",
+            "Cam & Company": "Cam & Company (Bearing Arms)",
+            "Bearing Arms": "Cam & Company (Bearing Arms)",
+        }
+        show_name = NAME_MAP.get(show_name, show_name)
+
         # Extract all rate fields
         baked_in_net    = clean_num(val(row, 1))
         downloads       = clean_num(val(row, 2))
