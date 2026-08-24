@@ -396,32 +396,17 @@ def build_spn_rates(rows):
         else:
             print(f"  Could not find show: {show_name}")
 
-    # Inject a one-time localStorage reset script so fresh data shows immediately
-    # This removes any cached edits that would override the updated rates
-    RESET_SCRIPT = """<script>
-// Auto-reset: clear cached rate edits so synced rates show immediately
-(function() {
-  var SYNC_KEY = 'spn_sync_version';
-  var RATE_KEY = 'spn_rate_card_v2';
-  var currentVersion = '""" + __import__('datetime').datetime.now().strftime('%Y%m%d') + """';
-  var lastSync = localStorage.getItem(SYNC_KEY);
-  if (lastSync !== currentVersion) {
-    localStorage.removeItem(RATE_KEY);
-    localStorage.setItem(SYNC_KEY, currentVersion);
-  }
-})();
-</script>"""
-
-    # Remove any existing reset script and add fresh one
-    import re as _re
-    html = _re.sub(r'<script>\s*// Auto-reset:.*?</script>', '', html, flags=_re.DOTALL)
-    html = html.replace('</body>', RESET_SCRIPT + '
-</body>', 1)
+    # Bump the localStorage key version so old cached edits are ignored
+    import datetime as _dt
+    today = _dt.datetime.now().strftime('%Y%m%d')
+    new_key = f'spn_rate_card_{today}'
+    html = html.replace("'spn_rate_card_v2'", f"'{new_key}'")
+    html = html.replace('"spn_rate_card_v2"', f'"{new_key}"')
 
     with open("spn.html", "w", encoding="utf-8") as f:
         f.write(html)
     print(f"  ✓ Updated {updated} shows in spn.html")
-    print(f"  ✓ Injected localStorage reset script")
+    print(f"  ✓ Bumped localStorage key to: {new_key}")
     return True
 
 # ─── MAIN ────────────────────────────────────────────────────────────────────
