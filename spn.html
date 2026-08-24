@@ -302,7 +302,7 @@ let showsData = [
 ];
 
 // Load from localStorage if available
-try { const s = localStorage.getItem('spn_rate_card_v2'); if(s) showsData = JSON.parse(s); } catch(e){}
+try { const s = localStorage.getItem('spn_rate_card_20260824'); if(s) showsData = JSON.parse(s); } catch(e){}
 
 let activeFilter = 'all';
 
@@ -595,7 +595,7 @@ function saveAdmin(idx) {
     const el = document.getElementById(`af-${key}`);
     if(el){ const v=el.value.trim(); showsData[idx][key]=v===''?null:(isNaN(v)||v===''?v:parseFloat(v)); }
   });
-  try { localStorage.setItem('spn_rate_card_v2', JSON.stringify(showsData)); } catch(e){}
+  try { localStorage.setItem('spn_rate_card_20260824', JSON.stringify(showsData)); } catch(e){}
   filterShows();
   closeAdmin();
   const t = document.getElementById('saveToast');
