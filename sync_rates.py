@@ -396,17 +396,9 @@ def build_spn_rates(rows):
         else:
             print(f"  Could not find show: {show_name}")
 
-    # Bump the localStorage key version so old cached edits are ignored
-    import datetime as _dt
-    today = _dt.datetime.now().strftime('%Y%m%d')
-    new_key = f'spn_rate_card_{today}'
-    html = html.replace("'spn_rate_card_v2'", f"'{new_key}'")
-    html = html.replace('"spn_rate_card_v2"', f'"{new_key}"')
-
     with open("spn.html", "w", encoding="utf-8") as f:
         f.write(html)
     print(f"  ✓ Updated {updated} shows in spn.html")
-    print(f"  ✓ Bumped localStorage key to: {new_key}")
     return True
 
 # ─── MAIN ────────────────────────────────────────────────────────────────────
