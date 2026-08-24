@@ -301,28 +301,29 @@ def build_spn_rates(rows):
             continue  # explicitly skip these rows
         show_name = mapped
 
-        # Extract all rate fields
-        baked_in_net    = clean_num(val(row, 1))
-        downloads       = clean_num(val(row, 2))
-        cpm_gross       = clean_num(val(row, 3))
-        min_length      = clean_str(val(row, 4))
-        min_monthly     = clean_num(val(row, 5))
-        surround        = clean_num(val(row, 6))
-        dai_avail       = clean_str(val(row, 7))
-        freq            = clean_str(val(row, 8))
-        av_pct          = clean_str(val(row, 9))
-        gender          = clean_str(val(row, 10))
-        pod_link        = clean_str(val(row, 11))
-        website         = clean_str(val(row, 12))
-        avg_web_views   = clean_num(val(row, 13))
-        web_banner_net  = clean_num(val(row, 14))
-        email_net       = clean_num(val(row, 15))
-        email_subs      = clean_str(val(row, 16))
-        social_rates    = clean_str(val(row, 17))
-        social_audience = clean_str(val(row, 18))
-        interview_net   = clean_num(val(row, 19))
-        interview       = clean_num(val(row, 20))
-        other           = clean_str(val(row, 21))
+        # Extract all rate fields - column mapping verified from actual sheet data
+        baked_in_net    = clean_num(val(row, 1))   # Baked-In NET
+        downloads       = clean_num(val(row, 2))   # Downloads per Episode
+        cpm_gross       = clean_num(val(row, 3))   # CPM Gross
+        min_length      = clean_str(val(row, 4))   # Min Endorsement Length
+        min_monthly     = clean_num(val(row, 5))   # Min Monthly Investment
+        surround        = clean_num(val(row, 6))   # Surround Social Monthly Min
+        monthly_min     = clean_str(val(row, 7))   # Monthly Min (Pre, Mid, Post)
+        dai_avail       = clean_str(val(row, 8))   # DAI Available
+        freq            = clean_str(val(row, 9))   # Frequency
+        av_pct          = clean_str(val(row, 10))  # Audio/Video %
+        gender          = clean_str(val(row, 11))  # Male/Female %
+        pod_link        = clean_str(val(row, 12))  # Podcast Link
+        website         = clean_str(val(row, 13))  # Website
+        avg_web_views   = clean_num(val(row, 14))  # Avg Web Views
+        web_banner_net  = clean_num(val(row, 15))  # Web Banner
+        email_net       = clean_num(val(row, 16))  # Email Rates
+        email_subs      = clean_str(val(row, 17))  # Email Subscribers
+        social_rates    = clean_str(val(row, 18))  # Social Rates
+        social_audience = clean_str(val(row, 19))  # Social Audience
+        interview_net   = clean_num(val(row, 20))  # Interview NET
+        interview       = clean_num(val(row, 21))  # Interview
+        other           = clean_str(val(row, 22))  # Other
 
         # Format string values for JS (quoted or null)
         def js_str(v):
@@ -348,7 +349,7 @@ def build_spn_rates(rows):
             f'minEndLength:{js_str(min_length)},' +
             f'minMonthlyInvest:{min_monthly},' +
             f'surround:{surround},' +
-            f'monthlyMin:{js_str(dai_avail)},' +
+            f'monthlyMin:{js_str(monthly_min)},' +
             f'daiAvail:{js_str(dai_avail)},' +
             f'freq:{js_str(freq)},' +
             f'avPct:{js_str(av_pct)},' +
