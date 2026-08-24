@@ -210,6 +210,171 @@ def build_parthenon_table(rows):
     html.append("</tbody></table>")
     return "\n".join(html)
 
+
+# ─── SPN ─────────────────────────────────────────────────────────────────────
+# Column mapping from Google Sheet SPN tab:
+# 0  = Podcast (show name)
+# 1  = Baked-In (net)
+# 2  = Downloads per Episode
+# 3  = CPM (gross)
+# 4  = Minimum Endorsement Length
+# 5  = Minimum Endorsement Monthly Investment
+# 6  = Surround Social Endorsement Campaign Monthly Minimum
+# 7  = DAI Available
+# 8  = Frequency
+# 9  = Audio / Video %
+# 10 = Male / Female %
+# 11 = Podcast Link
+# 12 = Website
+# 13 = Average Website Views per Month
+# 14 = Website Banner (100% SOV monthly)
+# 15 = Email Rates
+# 16 = Email Subscribers
+# 17 = Social Rates
+# 18 = Social Audience Size
+# 19 = Interview Rates Net
+# 20 = Interview
+# 21 = Other Rates Available
+
+def build_spn_rates(rows):
+    """Update rate values in spn.html showsData array."""
+    import re
+
+    if not os.path.exists("spn.html"):
+        print("  spn.html not found, skipping")
+        return None
+
+    print(f"  Reading spn.html...")
+    file_size = os.path.getsize("spn.html")
+    print(f"  spn.html size: {file_size:,} bytes ({file_size//1024//1024}MB)")
+    with open("spn.html", "r", encoding="utf-8") as f:
+        html = f.read()
+    print(f"  spn.html loaded successfully")
+
+    def clean_num(v):
+        """Convert spreadsheet value to JS number or null."""
+        if not v or v.strip() in ("—", "null", "N/A", "", "-"):
+            return "null"
+        cleaned = v.replace("$", "").replace(",", "").strip()
+        try:
+            float(cleaned)
+            return cleaned
+        except ValueError:
+            return "null"
+
+    def clean_str(v):
+        """Convert spreadsheet value to JS string or null."""
+        if not v or v.strip() in ("—", "null", "N/A", ""):
+            return "null"
+        return v.strip()
+
+    updated = 0
+    for row in rows[1:]:  # skip header row
+        if not any(row):
+            continue
+        show_name = val(row, 0)
+        if not show_name or show_name.lower() in ("podcast", "show", ""):
+            continue
+
+        # Extract all rate fields
+        baked_in_net    = clean_num(val(row, 1))
+        downloads       = clean_num(val(row, 2))
+        cpm_gross       = clean_num(val(row, 3))
+        min_length      = clean_str(val(row, 4))
+        min_monthly     = clean_num(val(row, 5))
+        surround        = clean_num(val(row, 6))
+        dai_avail       = clean_str(val(row, 7))
+        freq            = clean_str(val(row, 8))
+        av_pct          = clean_str(val(row, 9))
+        gender          = clean_str(val(row, 10))
+        pod_link        = clean_str(val(row, 11))
+        website         = clean_str(val(row, 12))
+        avg_web_views   = clean_num(val(row, 13))
+        web_banner_net  = clean_num(val(row, 14))
+        email_net       = clean_num(val(row, 15))
+        email_subs      = clean_str(val(row, 16))
+        social_rates    = clean_str(val(row, 17))
+        social_audience = clean_str(val(row, 18))
+        interview_net   = clean_num(val(row, 19))
+        interview       = clean_num(val(row, 20))
+        other           = clean_str(val(row, 21))
+
+        # Format string values for JS (quoted or null)
+        def js_str(v):
+            if v == "null":
+                return "null"
+            return f'"{v}"'
+
+        # Build the replacement showsData object for this show
+        escaped_name = re.escape(show_name)
+        pattern = re.compile(
+            r'\{name:"' + escaped_name + r'",[^}]+\}',
+            re.DOTALL
+        )
+
+        replacement = (
+            '{' +
+            f'name:"{show_name}",' +
+            f'bakedIn:{baked_in_net},' +
+            f'bakedInGross:{baked_in_net},' +
+            f'downloads:{downloads},' +
+            f'cpmNet:null,' +
+            f'cpmGross:{cpm_gross},' +
+            f'minEndLength:{js_str(min_length)},' +
+            f'minMonthlyInvest:{min_monthly},' +
+            f'surround:{surround},' +
+            f'monthlyMin:{js_str(dai_avail)},' +
+            f'daiAvail:{js_str(dai_avail)},' +
+            f'freq:{js_str(freq)},' +
+            f'avPct:{js_str(av_pct)},' +
+            f'gender:{js_str(gender)},' +
+            f'podLink:{js_str(pod_link)},' +
+            f'website:{js_str(website)},' +
+            f'webBannerNet:{web_banner_net},' +
+            f'avgWebViews:{avg_web_views},' +
+            f'webBannerSOV:null,' +
+            f'emailNet:{email_net},' +
+            f'emailGross:null,' +
+            f'emailSubs:{js_str(email_subs)},' +
+            f'socialRates:{js_str(social_rates)},' +
+            f'socialAudience:{js_str(social_audience)},' +
+            f'interviewNet:{interview_net},' +
+            f'interview:{interview},' +
+            f'other:{js_str(other)}'
+        )
+
+        # Preserve category and existing non-rate fields by doing targeted field updates
+        # Only update numeric/rate fields to avoid breaking logos, links, etc.
+        fields_to_update = {
+            'bakedInGross': baked_in_net,
+            'downloads': downloads,
+            'cpmGross': cpm_gross,
+            'minMonthlyInvest': min_monthly,
+            'surround': surround,
+        }
+
+        show_updated = False
+        for field, new_val in fields_to_update.items():
+            if new_val == "null":
+                continue
+            field_pattern = re.compile(
+                r'(\{name:"' + escaped_name + r'"[^}]*?' + re.escape(field) + r':)[^,}]+'
+            )
+            new_html, count = field_pattern.subn(r'\g<1>' + new_val, html)
+            if count:
+                html = new_html
+                show_updated = True
+
+        if show_updated:
+            updated += 1
+        else:
+            print(f"  Could not find show: {show_name}")
+
+    with open("spn.html", "w", encoding="utf-8") as f:
+        f.write(html)
+    print(f"  ✓ Updated {updated} shows in spn.html")
+    return True
+
 # ─── MAIN ────────────────────────────────────────────────────────────────────
 PAGES = [
     ("Misc",          "misc.html",       build_misc_table),
@@ -220,6 +385,7 @@ PAGES = [
     ("Townhall",      "townhall.html",   build_townhall_table),
     ("SNC",           "snc.html",        build_snc_table),
     ("Parthenon",     "parthenon.html",  build_parthenon_table),
+    ("SPN",           "spn.html",        None),  # handled separately
 ]
 
 def main():
@@ -230,6 +396,15 @@ def main():
         rows = fetch_sheet(sheet_name)
         if not rows:
             print(f"  Skipping (no data)")
+            continue
+        if sheet_name == "SPN":
+            print(f"  Processing SPN with {len(rows)} rows...")
+            try:
+                build_spn_rates(rows)
+            except Exception as e:
+                print(f"  ERROR processing SPN: {e}")
+                import traceback
+                traceback.print_exc()
             continue
         new_table = builder(rows)
         if not os.path.exists(filename):
