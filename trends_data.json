@@ -1,0 +1,28 @@
+{
+  "updated_at": null,
+  "geo": "US",
+  "timeframe": "baseline estimate",
+  "months": ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
+  "categories": [
+    { "name": "Retail & Shopping",       "values": [22, 20, 26, 28, 30, 32, 35, 55, 45, 62, 100, 92], "source": "baseline" },
+    { "name": "Automotive",              "values": [55, 45, 68, 72, 75, 60, 58, 70, 85, 100, 78, 82], "source": "baseline" },
+    { "name": "Travel & Hospitality",    "values": [35, 32, 45, 55, 70, 92, 100, 88, 55, 45, 55, 78], "source": "baseline" },
+    { "name": "Finance & Insurance",     "values": [78, 85, 100, 92, 55, 45, 40, 42, 48, 55, 88, 60], "source": "baseline" },
+    { "name": "Home & Garden",           "values": [30, 38, 65, 85, 100, 92, 70, 60, 55, 50, 35, 28], "source": "baseline" },
+    { "name": "Health",                  "values": [100, 80, 65, 58, 55, 52, 50, 55, 70, 60, 45, 42], "source": "baseline" },
+    { "name": "Beauty & Fitness",        "values": [95, 78, 70, 75, 92, 100, 80, 65, 55, 48, 40, 45], "source": "baseline" },
+    { "name": "Computers & Electronics", "values": [55, 35, 32, 35, 38, 42, 48, 68, 62, 58, 100, 85], "source": "baseline" },
+    { "name": "Internet & Telecom",      "values": [45, 32, 30, 32, 35, 38, 45, 60, 100, 65, 92, 70], "source": "baseline" },
+    { "name": "Food & Drink",            "values": [45, 48, 50, 52, 58, 65, 70, 62, 55, 58, 92, 100], "source": "baseline" },
+    { "name": "Real Estate",             "values": [35, 42, 62, 85, 100, 95, 88, 75, 62, 55, 40, 32], "source": "baseline" },
+    { "name": "Jobs & Education",        "values": [85, 65, 55, 50, 48, 42, 45, 92, 100, 60, 45, 38], "source": "baseline" },
+    { "name": "Sports",                  "values": [55, 50, 60, 68, 55, 45, 48, 72, 100, 88, 70, 60], "source": "baseline" },
+    { "name": "Games",                   "values": [55, 40, 35, 32, 30, 35, 38, 42, 48, 62, 95, 100], "source": "baseline" },
+    { "name": "Pets & Animals",          "values": [50, 52, 60, 65, 68, 65, 62, 60, 58, 55, 62, 70], "source": "baseline" },
+    { "name": "Hobbies & Leisure",       "values": [40, 38, 45, 55, 68, 88, 100, 90, 60, 48, 45, 62], "source": "baseline" },
+    { "name": "Arts & Entertainment",    "values": [45, 42, 48, 52, 65, 85, 88, 60, 50, 55, 82, 100], "source": "baseline" },
+    { "name": "Business & Industrial",   "values": [85, 80, 75, 70, 65, 60, 55, 58, 72, 78, 55, 42], "source": "baseline" }
+  ],
+  "failed_categories": [],
+  "note": "Baseline reference pattern built from published seasonal retail/marketing calendars (NRF, Mastercard SpendingPulse, Think with Google). Automatically replaced by live Google Trends data (5-year US average, normalized per category) once the nightly sync workflow completes its first successful run."
+}
