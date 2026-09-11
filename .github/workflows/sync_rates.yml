@@ -1,9 +1,11 @@
-name: Sync Rate Cards from Google Sheets
+name: Sync Rate Cards from SharePoint
 
 on:
   schedule:
     - cron: '0 7 * * *'
   workflow_dispatch:
+  repository_dispatch:
+    types: [sync-rate-cards]
 
 jobs:
   sync:
@@ -18,10 +20,11 @@ jobs:
         with:
           python-version: '3.11'
 
-      - name: List files
-        run: ls -la
-
-      - name: Sync rate cards from Google Sheets
+      - name: Sync rate cards from SharePoint
+        env:
+          AZURE_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
+          AZURE_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
+          AZURE_CLIENT_SECRET: ${{ secrets.AZURE_CLIENT_SECRET }}
         run: python3 sync_rates.py
 
       - name: Commit updated pages
@@ -30,9 +33,9 @@ jobs:
           git config user.email "ratecard-bot@salemcommunications.com"
           git add *.html
           if git diff --staged --quiet; then
-            echo "No changes detected — skipping commit"
+            echo "No changes detected"
           else
-            git commit -m "Auto-sync: update rate cards from Google Sheets $(date +'%Y-%m-%d')"
+            git commit -m "Auto-sync: update rate cards from SharePoint $(date +'%Y-%m-%d')"
             git push
-            echo "Changes pushed to GitHub"
+            echo "Changes pushed"
           fi
