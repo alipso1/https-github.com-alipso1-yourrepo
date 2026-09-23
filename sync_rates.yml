@@ -1,14 +1,9 @@
 name: Sync Rate Cards from Google Sheets
 
 on:
-  # Run automatically every night at 2:00 AM EST (7:00 AM UTC)
   schedule:
     - cron: '0 7 * * *'
-
-  # Allow manual trigger from GitHub Actions tab
   workflow_dispatch:
-
-  # Allow trigger via webhook from Power Automate
   repository_dispatch:
     types: [sync-rate-cards]
 
@@ -25,10 +20,11 @@ jobs:
         with:
           python-version: '3.11'
 
-      - name: List files
-        run: ls -la
-
-      - name: Sync rate cards from Google Sheets
+      - name: Sync rate cards from SharePoint
+        env:
+          AZURE_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
+          AZURE_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
+          AZURE_CLIENT_SECRET: ${{ secrets.AZURE_CLIENT_SECRET }}
         run: python3 sync_rates.py
 
       - name: Commit updated pages
@@ -39,7 +35,7 @@ jobs:
           if git diff --staged --quiet; then
             echo "No changes detected — skipping commit"
           else
-            git commit -m "Auto-sync: update rate cards from Google Sheets $(date +'%Y-%m-%d')"
+            git commit -m "Auto-sync: update rate cards from SharePoint $(date +'%Y-%m-%d')"
             git push
             echo "Changes pushed to GitHub"
           fi
