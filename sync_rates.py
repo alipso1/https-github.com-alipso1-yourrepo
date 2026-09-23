@@ -313,10 +313,10 @@ def build_spn_rates(rows):
 
         fields_to_update = {
             'bakedInGross': baked_in_net,
-            'downloads':    downloads,
             'cpmGross':     cpm_gross,
             'minMonthlyInvest': min_monthly,
             'surround':     surround,
+            # downloads field intentionally excluded - managed separately
         }
 
         escaped_name = re.escape(show_name)
