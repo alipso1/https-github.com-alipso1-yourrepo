@@ -1,28 +1,346 @@
 {
-  "updated_at": null,
+  "updated_at": "2026-09-24T13:15:18.423876+00:00",
   "geo": "US",
-  "timeframe": "baseline estimate",
-  "months": ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
-  "categories": [
-    { "name": "Retail & Shopping",       "values": [22, 20, 26, 28, 30, 32, 35, 55, 45, 62, 100, 92], "source": "baseline" },
-    { "name": "Automotive",              "values": [55, 45, 68, 72, 75, 60, 58, 70, 85, 100, 78, 82], "source": "baseline" },
-    { "name": "Travel & Hospitality",    "values": [35, 32, 45, 55, 70, 92, 100, 88, 55, 45, 55, 78], "source": "baseline" },
-    { "name": "Finance & Insurance",     "values": [78, 85, 100, 92, 55, 45, 40, 42, 48, 55, 88, 60], "source": "baseline" },
-    { "name": "Home & Garden",           "values": [30, 38, 65, 85, 100, 92, 70, 60, 55, 50, 35, 28], "source": "baseline" },
-    { "name": "Health",                  "values": [100, 80, 65, 58, 55, 52, 50, 55, 70, 60, 45, 42], "source": "baseline" },
-    { "name": "Beauty & Fitness",        "values": [95, 78, 70, 75, 92, 100, 80, 65, 55, 48, 40, 45], "source": "baseline" },
-    { "name": "Computers & Electronics", "values": [55, 35, 32, 35, 38, 42, 48, 68, 62, 58, 100, 85], "source": "baseline" },
-    { "name": "Internet & Telecom",      "values": [45, 32, 30, 32, 35, 38, 45, 60, 100, 65, 92, 70], "source": "baseline" },
-    { "name": "Food & Drink",            "values": [45, 48, 50, 52, 58, 65, 70, 62, 55, 58, 92, 100], "source": "baseline" },
-    { "name": "Real Estate",             "values": [35, 42, 62, 85, 100, 95, 88, 75, 62, 55, 40, 32], "source": "baseline" },
-    { "name": "Jobs & Education",        "values": [85, 65, 55, 50, 48, 42, 45, 92, 100, 60, 45, 38], "source": "baseline" },
-    { "name": "Sports",                  "values": [55, 50, 60, 68, 55, 45, 48, 72, 100, 88, 70, 60], "source": "baseline" },
-    { "name": "Games",                   "values": [55, 40, 35, 32, 30, 35, 38, 42, 48, 62, 95, 100], "source": "baseline" },
-    { "name": "Pets & Animals",          "values": [50, 52, 60, 65, 68, 65, 62, 60, 58, 55, 62, 70], "source": "baseline" },
-    { "name": "Hobbies & Leisure",       "values": [40, 38, 45, 55, 68, 88, 100, 90, 60, 48, 45, 62], "source": "baseline" },
-    { "name": "Arts & Entertainment",    "values": [45, 42, 48, 52, 65, 85, 88, 60, 50, 55, 82, 100], "source": "baseline" },
-    { "name": "Business & Industrial",   "values": [85, 80, 75, 70, 65, 60, 55, 58, 72, 78, 55, 42], "source": "baseline" }
+  "timeframe": "today 5-y",
+  "months": [
+    "Jan",
+    "Feb",
+    "Mar",
+    "Apr",
+    "May",
+    "Jun",
+    "Jul",
+    "Aug",
+    "Sep",
+    "Oct",
+    "Nov",
+    "Dec"
   ],
-  "failed_categories": [],
-  "note": "Baseline reference pattern built from published seasonal retail/marketing calendars (NRF, Mastercard SpendingPulse, Think with Google). Automatically replaced by live Google Trends data (5-year US average, normalized per category) once the nightly sync workflow completes its first successful run."
+  "categories": [
+    {
+      "name": "Retail & Shopping",
+      "values": [
+        0.0,
+        0.3,
+        0.1,
+        0.6,
+        0.7,
+        0.6,
+        0.6,
+        0.7,
+        1.8,
+        8.6,
+        100.0,
+        3.4
+      ],
+      "source": "live"
+    },
+    {
+      "name": "Automotive",
+      "values": [
+        0.0,
+        18.0,
+        50.1,
+        58.3,
+        77.7,
+        77.5,
+        81.1,
+        100.0,
+        28.1,
+        3.8,
+        61.8,
+        66.8
+      ],
+      "source": "live"
+    },
+    {
+      "name": "Travel & Hospitality",
+      "values": [
+        45.8,
+        60.7,
+        38.0,
+        25.2,
+        31.1,
+        35.8,
+        42.9,
+        20.1,
+        33.2,
+        0.0,
+        100.0,
+        41.6
+      ],
+      "source": "live"
+    },
+    {
+      "name": "Finance & Insurance",
+      "values": [
+        32.7,
+        100.0,
+        52.9,
+        38.6,
+        15.4,
+        6.5,
+        3.9,
+        2.1,
+        0.0,
+        1.3,
+        0.9,
+        3.8
+      ],
+      "source": "live"
+    },
+    {
+      "name": "Home & Garden",
+      "values": [
+        0.0,
+        19.8,
+        35.0,
+        46.1,
+        46.8,
+        57.4,
+        100.0,
+        32.9,
+        19.8,
+        32.5,
+        9.9,
+        9.3
+      ],
+      "source": "live"
+    },
+    {
+      "name": "Health",
+      "values": [
+        65.8,
+        93.8,
+        61.8,
+        58.6,
+        83.7,
+        100.0,
+        51.0,
+        33.8,
+        19.3,
+        0.0,
+        27.4,
+        41.0
+      ],
+      "source": "live"
+    },
+    {
+      "name": "Beauty & Fitness",
+      "values": [
+        76.7,
+        40.1,
+        43.0,
+        34.8,
+        17.5,
+        30.4,
+        52.0,
+        25.7,
+        100.0,
+        0.0,
+        15.8,
+        63.7
+      ],
+      "source": "live"
+    },
+    {
+      "name": "Computers & Electronics",
+      "values": [
+        3.5,
+        4.3,
+        0.3,
+        0.0,
+        6.8,
+        7.9,
+        30.3,
+        20.9,
+        3.4,
+        6.5,
+        100.0,
+        20.8
+      ],
+      "source": "live"
+    },
+    {
+      "name": "Internet & Telecom",
+      "values": [
+        0.0,
+        3.0,
+        43.2,
+        13.3,
+        49.5,
+        67.9,
+        83.6,
+        100.0,
+        89.2,
+        34.2,
+        76.1,
+        85.7
+      ],
+      "source": "live"
+    },
+    {
+      "name": "Food & Drink",
+      "values": [
+        43.5,
+        100.0,
+        28.4,
+        37.8,
+        55.8,
+        25.0,
+        25.9,
+        18.5,
+        0.0,
+        10.5,
+        18.0,
+        52.7
+      ],
+      "source": "live"
+    },
+    {
+      "name": "Real Estate",
+      "values": [
+        56.0,
+        56.6,
+        58.7,
+        65.6,
+        64.3,
+        68.8,
+        100.0,
+        63.7,
+        40.3,
+        48.6,
+        0.0,
+        0.8
+      ],
+      "source": "live"
+    },
+    {
+      "name": "Jobs & Education",
+      "values": [
+        100.0,
+        88.0,
+        72.6,
+        66.6,
+        63.3,
+        66.2,
+        76.2,
+        67.4,
+        51.4,
+        35.8,
+        4.9,
+        0.0
+      ],
+      "source": "live"
+    },
+    {
+      "name": "Sports",
+      "values": [
+        64.3,
+        15.5,
+        22.3,
+        28.4,
+        24.1,
+        0.0,
+        31.1,
+        100.0,
+        69.1,
+        61.8,
+        25.3,
+        27.7
+      ],
+      "source": "live"
+    },
+    {
+      "name": "Games",
+      "values": [
+        5.2,
+        0.0,
+        5.4,
+        38.4,
+        39.2,
+        36.0,
+        48.9,
+        29.0,
+        13.8,
+        13.4,
+        100.0,
+        22.2
+      ],
+      "source": "live"
+    },
+    {
+      "name": "Pets & Animals",
+      "values": [
+        0.7,
+        22.1,
+        0.0,
+        8.6,
+        75.4,
+        63.7,
+        81.3,
+        48.7,
+        17.7,
+        14.3,
+        54.0,
+        100.0
+      ],
+      "source": "live"
+    },
+    {
+      "name": "Hobbies & Leisure",
+      "values": [
+        0.0,
+        41.5,
+        19.7,
+        34.8,
+        77.3,
+        100.0,
+        74.4,
+        56.8,
+        36.1,
+        5.6,
+        10.1,
+        10.8
+      ],
+      "source": "live"
+    },
+    {
+      "name": "Arts & Entertainment",
+      "values": [
+        0.0,
+        59.4,
+        49.4,
+        71.1,
+        76.6,
+        64.4,
+        100.0,
+        98.9,
+        76.8,
+        45.1,
+        48.6,
+        11.3
+      ],
+      "source": "live"
+    },
+    {
+      "name": "Business & Industrial",
+      "values": [
+        14.7,
+        28.5,
+        44.0,
+        37.9,
+        57.0,
+        100.0,
+        48.9,
+        64.8,
+        66.0,
+        38.4,
+        30.5,
+        0.0
+      ],
+      "source": "live"
+    }
+  ],
+  "failed_categories": []
 }
