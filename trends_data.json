@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-10-08T15:17:56.181432+00:00",
+  "updated_at": "2026-10-09T15:02:40.240164+00:00",
   "geo": "US",
   "timeframe": "today 5-y",
   "months": [
@@ -33,7 +33,7 @@
         100.0,
         3.5
       ],
-      "source": "live"
+      "source": "stale"
     },
     {
       "name": "Automotive",
@@ -51,7 +51,7 @@
         61.5,
         69.0
       ],
-      "source": "live"
+      "source": "stale"
     },
     {
       "name": "Travel & Hospitality",
@@ -69,7 +69,7 @@
         100.0,
         42.4
       ],
-      "source": "live"
+      "source": "stale"
     },
     {
       "name": "Finance & Insurance",
@@ -105,7 +105,7 @@
         6.9,
         7.2
       ],
-      "source": "live"
+      "source": "stale"
     },
     {
       "name": "Health",
@@ -123,7 +123,7 @@
         24.5,
         47.0
       ],
-      "source": "live"
+      "source": "stale"
     },
     {
       "name": "Beauty & Fitness",
@@ -141,7 +141,7 @@
         12.2,
         56.6
       ],
-      "source": "live"
+      "source": "stale"
     },
     {
       "name": "Computers & Electronics",
@@ -177,7 +177,7 @@
         77.5,
         88.2
       ],
-      "source": "live"
+      "source": "stale"
     },
     {
       "name": "Food & Drink",
@@ -231,7 +231,7 @@
         3.9,
         0.0
       ],
-      "source": "live"
+      "source": "stale"
     },
     {
       "name": "Sports",
@@ -249,7 +249,7 @@
         25.2,
         27.3
       ],
-      "source": "live"
+      "source": "stale"
     },
     {
       "name": "Games",
@@ -267,7 +267,7 @@
         100.0,
         19.9
       ],
-      "source": "live"
+      "source": "stale"
     },
     {
       "name": "Pets & Animals",
@@ -285,7 +285,7 @@
         50.6,
         100.0
       ],
-      "source": "live"
+      "source": "stale"
     },
     {
       "name": "Hobbies & Leisure",
@@ -303,7 +303,7 @@
         9.4,
         9.9
       ],
-      "source": "live"
+      "source": "stale"
     },
     {
       "name": "Arts & Entertainment",
@@ -321,7 +321,7 @@
         53.0,
         9.2
       ],
-      "source": "live"
+      "source": "stale"
     },
     {
       "name": "Business & Industrial",
@@ -339,13 +339,27 @@
         27.5,
         0.0
       ],
-      "source": "live"
+      "source": "stale"
     }
   ],
   "failed_categories": [
+    "Retail & Shopping",
+    "Automotive",
+    "Travel & Hospitality",
     "Finance & Insurance",
+    "Home & Garden",
+    "Health",
+    "Beauty & Fitness",
     "Computers & Electronics",
+    "Internet & Telecom",
     "Food & Drink",
-    "Real Estate"
+    "Real Estate",
+    "Jobs & Education",
+    "Sports",
+    "Games",
+    "Pets & Animals",
+    "Hobbies & Leisure",
+    "Arts & Entertainment",
+    "Business & Industrial"
   ]
 }
